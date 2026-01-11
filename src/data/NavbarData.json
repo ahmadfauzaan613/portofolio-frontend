@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "name": "Home",
+      "link": "/"
+    },
+    {
+      "name": "Experience",
+      "link": "/experience"
+    },
+    {
+      "name": "Portofolio",
+      "link": "/portofolio"
+    },
+    {
+      "name": "Certificate",
+      "url": "/certificate"
+    }
+  ]
+}
