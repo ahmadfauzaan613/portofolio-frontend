@@ -1,39 +1,31 @@
-import { Eye, EyeOff, Moon, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
+import { Eye, EyeOff } from 'lucide-react'
+
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
 import { Input } from '../../components/ui/input'
 import { Label } from '../../components/ui/label'
+import { useLogin } from '../../hooks/Auth/useLogin'
+import type { LoginForm } from '../../type'
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
-  const { theme, setTheme } = useTheme()
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
+
+  const navigate = useNavigate()
+  const { mutate, isPending, error } = useLogin()
+  const { register, handleSubmit, formState } = useForm<LoginForm>()
+  const onSubmit = (data: LoginForm) => {
+    mutate(data, {
+      onSuccess: () => {
+        navigate('/admin/profile')
+      },
+    })
   }
 
   return (
     <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-background">
-      <div className="absolute right-6 top-6">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={toggleTheme}
-          className="h-10 w-10 cursor-pointer border-muted-foreground/20 hover:bg-muted transition-all"
-        >
-          {theme === 'dark' ? (
-            <Moon className="h-5 w-5 transition-all" />
-          ) : (
-            <Sun className="h-5 w-5 transition-all" />
-          )}
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </div>
-
-      <form className="w-full max-w-md px-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md px-4">
         <div className="rounded-xl border bg-card p-8 shadow-sm">
           <div className="mb-10 flex justify-center">
             <h1 className="text-4xl font-bold uppercase tracking-tighter">Admin</h1>
@@ -42,13 +34,23 @@ export default function Login() {
           <div className="space-y-6">
             <div className="grid gap-2">
               <Label htmlFor="username">Username</Label>
-              <Input name="username" id="username" placeholder="Username" className="h-12" />
+              <Input
+                {...register('username', { required: 'Username is required' })}
+                name="username"
+                id="username"
+                placeholder="Username"
+                className="h-12"
+              />
+              {formState.errors.username && (
+                <p className="text-sm text-red-500">{formState.errors.username.message}</p>
+              )}
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
+                  {...register('password', { required: 'Password is required' })}
                   name="password"
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -57,17 +59,27 @@ export default function Login() {
                 />
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  {showPassword ? <EyeOff /> : <Eye />}
                 </button>
+                {formState.errors.password && (
+                  <p className="text-sm text-red-500">{formState.errors.password.message}</p>
+                )}
               </div>
             </div>
 
-            <Button type="submit" className="w-full h-12 cursor-pointer mt-4" size="lg">
-              Login
+            <Button
+              type="submit"
+              className="w-full h-12 cursor-pointer mt-4 bg-white text-black"
+              size="lg"
+            >
+              {isPending ? 'Signing in...' : 'Sign in'}
             </Button>
+            {error && (
+              <p className="text-center text-sm text-red-500">Invalid username or password</p>
+            )}
           </div>
         </div>
       </form>

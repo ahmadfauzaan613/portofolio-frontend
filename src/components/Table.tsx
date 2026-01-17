@@ -1,4 +1,12 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '../components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select'
 import {
   TableBody,
   TableCell,
@@ -7,18 +15,17 @@ import {
   Table as TableRoot,
   TableRow,
 } from '../components/ui/table'
-
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { useState } from 'react'
 import type { IDataTableProps } from '../type'
 
-export default function Table<T>({ columns, data }: IDataTableProps<T>) {
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5
-
-  const totalPages = Math.ceil(data.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const currentData = data.slice(startIndex, startIndex + itemsPerPage)
+export default function Table<T>({
+  columns,
+  data,
+  currentPage,
+  totalPages,
+  onPageChange,
+  pageSize,
+  onSizeChange,
+}: IDataTableProps<T>) {
   return (
     <div className="space-y-4">
       <div className="rounded-md border bg-card overflow-hidden">
@@ -33,8 +40,9 @@ export default function Table<T>({ columns, data }: IDataTableProps<T>) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {currentData.length > 0 ? (
-              currentData.map((item, rowIndex) => (
+            {/* Pakai 'data' langsung karena sudah di-slice oleh API */}
+            {data && data.length > 0 ? (
+              data.map((item, rowIndex) => (
                 <TableRow key={rowIndex} className="hover:bg-muted/50 transition-colors">
                   {columns.map((col, colIndex) => (
                     <TableCell key={colIndex} className="py-4">
@@ -47,8 +55,11 @@ export default function Table<T>({ columns, data }: IDataTableProps<T>) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No data.
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center text-muted-foreground"
+                >
+                  No data available.
                 </TableCell>
               </TableRow>
             )}
@@ -56,12 +67,28 @@ export default function Table<T>({ columns, data }: IDataTableProps<T>) {
         </TableRoot>
       </div>
 
-      <div className="flex items-center justify-end px-2">
+      <div className="flex items-center justify-between px-2">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium text-muted-foreground">Rows per page</p>
+          <Select value={pageSize.toString()} onValueChange={value => onSizeChange(Number(value))}>
+            <SelectTrigger className="h-8 w-17.5">
+              <SelectValue placeholder={pageSize} />
+            </SelectTrigger>
+            <SelectContent side="top">
+              {[5, 10, 20, 50].map(size => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
             className="cursor-pointer"
           >
@@ -72,9 +99,9 @@ export default function Table<T>({ columns, data }: IDataTableProps<T>) {
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
               <Button
                 key={page}
-                variant={currentPage === page ? 'outline' : 'default'}
+                variant={currentPage === page ? 'default' : 'outline'}
                 size="sm"
-                onClick={() => setCurrentPage(page)}
+                onClick={() => onPageChange(page)}
                 className={`h-8 w-8 cursor-pointer ${currentPage === page ? 'pointer-events-none' : ''}`}
               >
                 {page}
@@ -85,8 +112,8 @@ export default function Table<T>({ columns, data }: IDataTableProps<T>) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-            disabled={currentPage === totalPages}
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages || totalPages === 0}
             className="cursor-pointer"
           >
             <ChevronRight className="h-4 w-4" />

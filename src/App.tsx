@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import AdminTemplate from './components/AdminTemplate'
 import WrapperTamplate from './components/WrapperTamplate'
+import { ProtectedRoute } from './lib/ProtectedRoute'
 import Logs from './pages/Admin/ApiLogs/Logs'
 import Experiences from './pages/Admin/Experience/Experiences'
 import Login from './pages/Admin/Login'
@@ -49,33 +50,41 @@ export default function App() {
       <Route
         path="/admin/profile"
         element={
-          <AdminTemplate>
-            <Profile />
-          </AdminTemplate>
+          <ProtectedRoute>
+            <AdminTemplate>
+              <Profile />
+            </AdminTemplate>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/admin/experience"
         element={
-          <AdminTemplate>
-            <Experiences />
-          </AdminTemplate>
+          <ProtectedRoute>
+            <AdminTemplate>
+              <Experiences />
+            </AdminTemplate>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/admin/portfolios"
         element={
-          <AdminTemplate>
-            <PortofolioAdmin />
-          </AdminTemplate>
+          <ProtectedRoute>
+            <AdminTemplate>
+              <PortofolioAdmin />
+            </AdminTemplate>
+          </ProtectedRoute>
         }
       />
       <Route
         path="/admin/logs"
         element={
-          <AdminTemplate>
-            <Logs />
-          </AdminTemplate>
+          <ProtectedRoute>
+            <AdminTemplate>
+              <Logs />
+            </AdminTemplate>
+          </ProtectedRoute>
         }
       />
     </Routes>

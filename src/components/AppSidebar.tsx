@@ -1,5 +1,6 @@
 import { Briefcase, History, LayoutDashboard, Lock, LogOut, Settings } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Sidebar,
   SidebarContent,
@@ -10,6 +11,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '../components/ui/sidebar'
+import { useUpdatePassword } from '../hooks/Auth/updatePassword'
+import { useLogout } from '../hooks/Auth/useLogOut'
 import UpdatePasswordModal from './UpdatePasswordModal'
 
 const items = [
@@ -21,6 +24,27 @@ const items = [
 
 export default function AppSidebar() {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const navigate = useNavigate()
+  const { mutate, isPending } = useLogout()
+
+  const handleLogout = () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        navigate('/admin')
+      },
+    })
+  }
+
+  const { mutate: updatePassword, isPending: pendingUpdate } = useUpdatePassword()
+
+  const handleUpdatePassword = (data: { oldPassword: string; newPassword: string }) => {
+    updatePassword(data, {
+      onSuccess: () => {
+        setIsModalOpen(false)
+      },
+    })
+  }
+
   return (
     <>
       <Sidebar collapsible="icon" className="border-r">
@@ -62,15 +86,20 @@ export default function AppSidebar() {
                 <Lock className="w-5 h-5" />
                 <span className="font-medium">Update Password</span>
               </SidebarMenuButton>
-              <SidebarMenuButton className="">
+              <SidebarMenuButton onClick={handleLogout} disabled={isPending} className="">
                 <LogOut className="w-5 h-5" />
-                <span className="font-medium">Logout</span>
+                <span className="font-medium">{isPending ? 'Logging out...' : 'Logout'}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      <UpdatePasswordModal isOpen={isModalOpen} onOpenChange={setIsModalOpen} />
+      <UpdatePasswordModal
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSubmit={handleUpdatePassword}
+        isLoading={pendingUpdate}
+      />
     </>
   )
 }
