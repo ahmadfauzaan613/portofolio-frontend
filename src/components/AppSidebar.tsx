@@ -1,4 +1,12 @@
-import { Briefcase, History, LayoutDashboard, Lock, LogOut, Settings } from 'lucide-react'
+import {
+  Briefcase,
+  ChartBarStacked,
+  History,
+  LayoutDashboard,
+  Lock,
+  LogOut,
+  Settings,
+} from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -19,6 +27,7 @@ const items = [
   { title: 'Profile', url: '/admin/profile', icon: Settings },
   { title: 'Experience', url: '/admin/experience', icon: LayoutDashboard },
   { title: 'Portfolios', url: '/admin/portfolios', icon: Briefcase },
+  { title: 'Category', url: '/admin/category', icon: ChartBarStacked },
   { title: 'API Logs', url: '/admin/logs', icon: History },
 ]
 

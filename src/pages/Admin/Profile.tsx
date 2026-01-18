@@ -46,8 +46,8 @@ export default function Profile() {
           onSuccess: res => {
             toast.success(res?.message || 'Profile updated successfully')
           },
-          onError: (err: any) => {
-            toast.error(err?.response?.data?.message || 'Failed to update profile')
+          onError: () => {
+            toast.error('Failed to update profile')
           },
         }
       )
@@ -63,8 +63,8 @@ export default function Profile() {
           onSuccess: res => {
             toast.success(res?.message || 'Profile created successfully')
           },
-          onError: (err: any) => {
-            toast.error(err?.response?.data?.message || 'Failed to create profile')
+          onError: () => {
+            toast.error('Failed to create profile')
           },
         }
       )

@@ -43,8 +43,8 @@ export default function Experiences() {
         setPopupDelete(false)
         setDeleteId(null)
       },
-      onError: (err: any) => {
-        toast.error(err?.response?.data?.message || 'Failed to delete experience')
+      onError: () => {
+        toast.error('Failed to delete experience')
       },
     })
   }

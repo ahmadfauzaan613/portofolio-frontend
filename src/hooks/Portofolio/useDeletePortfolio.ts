@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '../axios'
 
 export const deleteDataPort = async (id: number) => {
@@ -9,7 +9,12 @@ export const deleteDataPort = async (id: number) => {
 }
 
 export const useDeletePort = () => {
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: (id: number) => deleteDataPort(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['portfolios'] })
+    },
   })
 }

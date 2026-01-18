@@ -1,0 +1,199 @@
+import { result } from 'lodash'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { Button } from '../../../components/ui/button'
+import { Input } from '../../../components/ui/input'
+import { Label } from '../../../components/ui/label'
+import { Textarea } from '../../../components/ui/textarea'
+import { useGetAllCategory } from '../../../hooks/Categories/useGetAllCat'
+import { useCreatePortfolio } from '../../../hooks/Portofolio/useCreatePortfolio'
+import { useUpdatePortfolio } from '../../../hooks/Portofolio/useUpdatePortfolio'
+import type { CategoryData, CreatePortfolioForm } from '../../../type'
+
+interface Props {
+  onSuccess?: () => void
+  defaultValues?: Partial<CreatePortfolioForm>
+  portfolioId?: number
+}
+export default function CreatePortfolioForm({ onSuccess, defaultValues, portfolioId }: Props) {
+  const { mutate: createPortfolio, isPending: creating } = useCreatePortfolio()
+  const { mutate: updateExperience, isPending: updating } = useUpdatePortfolio()
+  const { data: dataCategory } = useGetAllCategory()
+  const isSubmitting = creating || updating
+
+  const { register, handleSubmit, reset, setValue } = useForm<CreatePortfolioForm>({
+    defaultValues: {
+      logos: [],
+      images: [],
+    },
+  })
+
+  useEffect(() => {
+    if (defaultValues) {
+      reset({
+        short_desc: defaultValues.short_desc ?? '',
+        description: defaultValues.description ?? '',
+        link: defaultValues.link ?? '',
+        category: defaultValues.category ?? '',
+        logos: [],
+        images: [],
+      })
+    }
+  }, [defaultValues, reset])
+
+  const [logoInputs, setLogoInputs] = useState([0])
+  const [imageInputs, setImageInputs] = useState([0])
+  const addLogoInput = () => {
+    setLogoInputs(prev => [...prev, prev.length])
+  }
+  const addImageInput = () => {
+    setImageInputs(prev => [...prev, prev.length])
+  }
+  const removeLogoInput = (index: number) => {
+    setLogoInputs(prev => prev.filter((_, i) => i !== index))
+  }
+  const removeImageInput = (index: number) => {
+    setImageInputs(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const onSubmit = (data: CreatePortfolioForm) => {
+    const formData = new FormData()
+
+    formData.append('imageBanner', data.imageBanner[0])
+
+    data.logos.filter(Boolean).forEach(file => {
+      formData.append('logo', file as File)
+    })
+
+    data.images.filter(Boolean).forEach(file => {
+      formData.append('allImage', file as File)
+    })
+
+    formData.append('short_desc', data.short_desc)
+    formData.append('description', data.description)
+    formData.append('link', data.link)
+    formData.append('category', data.category)
+
+    if (portfolioId) {
+      updateExperience(
+        { id: portfolioId, formData },
+        {
+          onSuccess: res => {
+            toast.success(res.message || 'Portfolio updated successfully')
+            onSuccess?.()
+          },
+          onError: () => {
+            toast.error('Failed to update portfolio')
+          },
+        }
+      )
+      return
+    }
+
+    createPortfolio(formData, {
+      onSuccess: res => {
+        toast.success(res.message || 'Portfolio created')
+        reset()
+        onSuccess?.()
+      },
+      onError: () => {
+        toast.error('Failed Created Portfolio')
+      },
+    })
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <div>
+        <Label>Image Banner</Label>
+        <Input type="file" {...register('imageBanner', { required: true })} />
+      </div>
+
+      <div className="space-y-3">
+        <Label>Logos</Label>
+
+        {logoInputs.map((_, index) => (
+          <div key={index} className="flex gap-2 items-center">
+            <Input
+              type="file"
+              onChange={e => setValue(`logos.${index}`, e.target.files?.[0] ?? null)}
+            />
+
+            {logoInputs.length > 1 && (
+              <Button type="button" variant="ghost" onClick={() => removeLogoInput(index)}>
+                Remove
+              </Button>
+            )}
+          </div>
+        ))}
+
+        <Button type="button" variant="outline" onClick={addLogoInput}>
+          Add Logo
+        </Button>
+      </div>
+
+      <div className="space-y-3">
+        <Label>All Images</Label>
+
+        {imageInputs.map((_, index) => (
+          <div key={index} className="flex gap-2 items-center">
+            <Input
+              type="file"
+              onChange={e => setValue(`images.${index}`, e.target.files?.[0] ?? null)}
+            />
+
+            {imageInputs.length > 1 && (
+              <Button type="button" variant="ghost" onClick={() => removeImageInput(index)}>
+                Remove
+              </Button>
+            )}
+          </div>
+        ))}
+
+        <Button type="button" variant="outline" onClick={addImageInput}>
+          Add Image
+        </Button>
+      </div>
+
+      <div>
+        <Label>Short Description</Label>
+        <Input {...register('short_desc', { required: true })} />
+      </div>
+
+      <div>
+        <Label>Description</Label>
+        <Textarea {...register('description', { required: true })} />
+      </div>
+
+      <div>
+        <Label>Project Link</Label>
+        <Input {...register('link', { required: true })} />
+      </div>
+
+      <div>
+        <Label>Category</Label>
+
+        <select
+          {...register('category')}
+          className="w-full h-12 rounded-md border bg-background px-3 text-sm"
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select category
+          </option>
+
+          {result(dataCategory, 'data', []).map((cat: CategoryData) => (
+            <option key={cat.id} value={cat.category}>
+              {cat.category}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-black">
+        {isSubmitting ? 'Saving...' : portfolioId ? 'Update Portfolio' : 'Save Portfolio'}
+      </Button>
+    </form>
+  )
+}

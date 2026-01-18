@@ -123,6 +123,16 @@ export interface Experience {
   end_date: string | null
 }
 
+export interface Category {
+  id: number
+  name: string
+}
+
+export interface CategoryData {
+  id: number
+  category: string
+}
+
 export interface Log {
   id: number
   method: string
@@ -133,4 +143,14 @@ export interface Log {
   execution_time: string
   created_at: string
   payload: string
+}
+
+export interface CreatePortfolioForm {
+  imageBanner: FileList
+  logos: (File | null)[]
+  images: (File | null)[]
+  short_desc: string
+  description: string
+  link: string
+  category: string
 }

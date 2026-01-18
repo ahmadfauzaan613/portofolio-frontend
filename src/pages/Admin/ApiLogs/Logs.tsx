@@ -17,8 +17,8 @@ export default function Logs() {
       onSuccess: res => {
         toast.success(res?.message || 'Logs cleaned up successfully')
       },
-      onError: (err: any) => {
-        toast.error(err?.response?.data?.message || 'Failed to cleanup logs')
+      onError: () => {
+        toast.error('Failed to cleanup logs')
       },
     })
   }

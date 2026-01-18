@@ -3,6 +3,7 @@ import AdminTemplate from './components/AdminTemplate'
 import WrapperTamplate from './components/WrapperTamplate'
 import { ProtectedRoute } from './lib/ProtectedRoute'
 import Logs from './pages/Admin/ApiLogs/Logs'
+import Category from './pages/Admin/Category/Category'
 import Experiences from './pages/Admin/Experience/Experiences'
 import Login from './pages/Admin/Login'
 import PortofolioAdmin from './pages/Admin/Portofolio/Portofolio'
@@ -73,6 +74,16 @@ export default function App() {
           <ProtectedRoute>
             <AdminTemplate>
               <PortofolioAdmin />
+            </AdminTemplate>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/category"
+        element={
+          <ProtectedRoute>
+            <AdminTemplate>
+              <Category />
             </AdminTemplate>
           </ProtectedRoute>
         }

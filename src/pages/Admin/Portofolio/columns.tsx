@@ -4,7 +4,10 @@ import type { IColumn, Portfolio } from '../../../type'
 
 const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
 
-export const PortfolioColumn: IColumn<Portfolio>[] = [
+export const PortfolioColumn = (
+  onEdit: (item: Portfolio) => void,
+  onDelete: (id: number) => void
+): IColumn<Portfolio>[] => [
   {
     header: 'ID',
     accessor: 'id',
@@ -94,7 +97,7 @@ export const PortfolioColumn: IColumn<Portfolio>[] = [
           variant="ghost"
           size="icon"
           className="h-8 w-8 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30"
-          onClick={() => console.log('Edit ID:', item.id)}
+          onClick={() => onEdit(item)}
         >
           <Pencil className="h-4 w-4" />
         </Button>
@@ -103,7 +106,7 @@ export const PortfolioColumn: IColumn<Portfolio>[] = [
           variant="ghost"
           size="icon"
           className="h-8 w-8 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30"
-          onClick={() => console.log('Delete ID:', item.id)}
+          onClick={() => onDelete(item.id)}
         >
           <Trash2 className="h-4 w-4" />
         </Button>

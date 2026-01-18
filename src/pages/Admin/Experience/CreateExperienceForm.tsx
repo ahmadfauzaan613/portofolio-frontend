@@ -47,8 +47,8 @@ export default function CreateExperienceForm({ onSuccess, defaultValues, experie
             toast.success(res.message || 'Experience updated successfully')
             onSuccess?.()
           },
-          onError: err => {
-            toast.error(err?.response?.data?.message || 'Failed to update experience')
+          onError: () => {
+            toast.error('Failed to update experience')
           },
         }
       )
@@ -60,8 +60,8 @@ export default function CreateExperienceForm({ onSuccess, defaultValues, experie
           reset()
           onSuccess?.()
         },
-        onError: err => {
-          toast.error(err?.response?.data?.message || 'Failed to add experience')
+        onError: () => {
+          toast.error('Failed to add experience')
         },
       })
     }
