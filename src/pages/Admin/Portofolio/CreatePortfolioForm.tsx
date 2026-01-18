@@ -32,6 +32,7 @@ export default function CreatePortfolioForm({ onSuccess, defaultValues, portfoli
   useEffect(() => {
     if (defaultValues) {
       reset({
+        title: defaultValues.title ?? '',
         short_desc: defaultValues.short_desc ?? '',
         description: defaultValues.description ?? '',
         link: defaultValues.link ?? '',
@@ -69,7 +70,7 @@ export default function CreatePortfolioForm({ onSuccess, defaultValues, portfoli
     data.images.filter(Boolean).forEach(file => {
       formData.append('allImage', file as File)
     })
-
+    formData.append('title', data.short_desc)
     formData.append('short_desc', data.short_desc)
     formData.append('description', data.description)
     formData.append('link', data.link)
@@ -105,6 +106,10 @@ export default function CreatePortfolioForm({ onSuccess, defaultValues, portfoli
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <div>
+        <Label>Title</Label>
+        <Input {...register('title', { required: true })} />
+      </div>
       <div>
         <Label>Image Banner</Label>
         <Input type="file" {...register('imageBanner', { required: true })} />

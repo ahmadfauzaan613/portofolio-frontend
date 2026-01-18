@@ -18,7 +18,7 @@ export default function App() {
       <Route
         path="/"
         element={
-          <WrapperTamplate container={true} viweNavbar={true}>
+          <WrapperTamplate container={true} viewNavbar={true}>
             <Home />
           </WrapperTamplate>
         }
@@ -26,7 +26,7 @@ export default function App() {
       <Route
         path="/experience"
         element={
-          <WrapperTamplate container={true} viweNavbar={true}>
+          <WrapperTamplate container={true} viewNavbar={true}>
             <Experience />
           </WrapperTamplate>
         }
@@ -34,7 +34,7 @@ export default function App() {
       <Route
         path="/portofolio"
         element={
-          <WrapperTamplate container={true} viweNavbar={true}>
+          <WrapperTamplate container={true} viewNavbar={true}>
             <Portofolio />
           </WrapperTamplate>
         }
@@ -43,7 +43,7 @@ export default function App() {
       <Route
         path="/admin"
         element={
-          <WrapperTamplate viweNavbar={false} container={false}>
+          <WrapperTamplate viewNavbar={false} container={false}>
             <Login />
           </WrapperTamplate>
         }

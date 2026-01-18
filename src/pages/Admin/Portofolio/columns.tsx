@@ -12,7 +12,10 @@ export const PortfolioColumn = (
     header: 'ID',
     accessor: 'id',
   },
-
+  {
+    header: 'Title',
+    accessor: 'title',
+  },
   {
     header: 'Banner',
     accessor: item => (
@@ -25,7 +28,7 @@ export const PortfolioColumn = (
   },
 
   {
-    header: 'Project Name',
+    header: 'Short Description',
     accessor: 'short_desc',
   },
 

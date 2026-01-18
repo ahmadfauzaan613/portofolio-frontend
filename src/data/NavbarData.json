@@ -1,13 +1,7 @@
 {
   "data": [
-    {
-      "name": "Experience",
-      "link": "/experience"
-    },
-    {
-      "name": "Portofolio",
-      "link": "/portofolio"
-    }
-
+    { "name": "Home", "link": "home" },
+    { "name": "Experience", "link": "experience" },
+    { "name": "Portfolio", "link": "portfolio" }
   ]
 }

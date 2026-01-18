@@ -39,6 +39,7 @@ export interface IDataTableProps<T> {
 
 export interface Portfolio {
   id: number
+  title: string
   image_banner: string
   short_desc: string
   description: string
@@ -64,6 +65,10 @@ export interface IPayloadUpdate {
   }[]
 }
 
+export interface ILinkResponse {
+  type: string
+  value: string
+}
 export interface CreateProfilePayload {
   role: string
   about: string
@@ -146,7 +151,20 @@ export interface Log {
 }
 
 export interface CreatePortfolioForm {
+  title: string
   imageBanner: FileList
+  logos: (File | null)[]
+  images: (File | null)[]
+  short_desc: string
+  description: string
+  link: string
+  category: string
+}
+
+export interface PortfolioForm {
+  id: number
+  title: string
+  image_banner: FileList
   logos: (File | null)[]
   images: (File | null)[]
   short_desc: string
