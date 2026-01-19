@@ -100,7 +100,11 @@ export default function UpdatePasswordModal({
         </form>
 
         <DialogFooter>
-          <Button type="submit" className="w-full bg-white text-black" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full bg-white cursor-pointer text-black"
+            disabled={isLoading}
+          >
             {isLoading ? 'Saving...' : 'Save Password'}
           </Button>
         </DialogFooter>

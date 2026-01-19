@@ -67,7 +67,7 @@ export default function CreateCategoryForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <Label>Category</Label>
+        <Label className="mb-3">Category</Label>
         <Input
           {...register('name', { required: 'Name is required' })}
           placeholder="Category name"
@@ -75,7 +75,11 @@ export default function CreateCategoryForm({
         {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="w-full">
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full cursor-pointer  bg-white text-black"
+      >
         {isSubmitting ? 'Saving...' : categoryId ? 'Update Category' : 'Create Category'}
       </Button>
     </form>

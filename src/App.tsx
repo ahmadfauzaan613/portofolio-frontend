@@ -12,6 +12,7 @@ import Experience from './pages/Experience'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 import Portofolio from './pages/Portofolio'
+import PortofolioDetail from './pages/PortofolioDetail'
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           </WrapperTamplate>
         }
       />
+      {/* CLIENT */}
       <Route
         path="/"
         element={
@@ -41,10 +43,18 @@ export default function App() {
         }
       />
       <Route
-        path="/portofolio"
+        path="/portfolio"
         element={
           <WrapperTamplate container={true} viewNavbar={true}>
             <Portofolio />
+          </WrapperTamplate>
+        }
+      />
+      <Route
+        path="/portfolio/:id"
+        element={
+          <WrapperTamplate container={true} viewNavbar={true}>
+            <PortofolioDetail />
           </WrapperTamplate>
         }
       />

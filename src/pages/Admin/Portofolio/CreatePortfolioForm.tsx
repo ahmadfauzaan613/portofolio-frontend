@@ -126,16 +126,16 @@ export default function CreatePortfolioForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div>
-        <Label>Title</Label>
+        <Label className="mb-3">Title</Label>
         <Input {...register('title', { required: true })} />
       </div>
       <div>
-        <Label>Image Banner</Label>
+        <Label className="mb-3">Image Banner</Label>
         <Input type="file" {...register('imageBanner', { required: true })} />
       </div>
 
       <div className="space-y-3">
-        <Label>Logos</Label>
+        <Label className="mb-3">Logos</Label>
 
         {logoInputs.map((_, index) => (
           <div key={index} className="flex gap-2 items-center">
@@ -181,26 +181,26 @@ export default function CreatePortfolioForm({
       </div>
 
       <div>
-        <Label>Short Description</Label>
+        <Label className="mb-3">Short Description</Label>
         <Input {...register('short_desc', { required: true })} />
       </div>
 
       <div>
-        <Label>Description</Label>
+        <Label className="mb-3">Description</Label>
         <Textarea {...register('description', { required: true })} />
       </div>
 
       <div>
-        <Label>Project Link</Label>
+        <Label className="mb-3">Project Link</Label>
         <Input {...register('link', { required: true })} />
       </div>
 
       <div>
-        <Label>Category</Label>
+        <Label className="mb-3">Category</Label>
 
         <select
           {...register('category')}
-          className="w-full h-12 rounded-md border bg-background px-3 text-sm"
+          className="w-full h-12 rounded-md border  px-3 text-sm"
           defaultValue=""
         >
           <option value="" disabled>
@@ -208,14 +208,18 @@ export default function CreatePortfolioForm({
           </option>
 
           {result(dataCategory, 'data', []).map((cat: CategoryData) => (
-            <option key={cat.id} value={cat.category}>
+            <option key={cat.id} value={cat.category} className="text-black">
               {cat.category}
             </option>
           ))}
         </select>
       </div>
 
-      <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-black">
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full cursor-pointer bg-white text-black"
+      >
         {isSubmitting ? 'Saving...' : portfolioId ? 'Update Portfolio' : 'Save Portfolio'}
       </Button>
     </form>

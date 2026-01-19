@@ -22,7 +22,7 @@ export const PortfolioColumn = (
       <img
         src={`${IMAGE_BASE_URL}/${item.image_banner}`}
         alt={item.short_desc}
-        className="h-12 w-20 object-cover rounded-md border"
+        className="h-12 w-28 object-cover rounded-md border"
       />
     ),
   },

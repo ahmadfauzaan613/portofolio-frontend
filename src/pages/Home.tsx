@@ -11,8 +11,8 @@ export default function Home() {
   const [page, setPage] = useState(1)
   const { data: experienceData } = useGetExperiences(page, 3)
   const { data: profile } = useGetAllProfile()
-
-  const { data: portfolioData } = useGetAllportfolio(page, 3)
+  const [pagePortfolio, setPortfolio] = useState(1)
+  const { data: portfolioData } = useGetAllportfolio(pagePortfolio, 3)
 
   return (
     <div>
@@ -38,7 +38,7 @@ export default function Home() {
         <PortfolioComp
           currentPage={result(portfolioData, 'data.pagination.current_page', 1)}
           totalPages={result(portfolioData, 'data.pagination.total_pages', 1)}
-          onPageChange={newPage => setPage(newPage)}
+          onPageChange={newPage => setPortfolio(newPage)}
           dataPortfolio={result(portfolioData, 'data.items', [])}
         />
       </section>

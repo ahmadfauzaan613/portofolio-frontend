@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { formatPeriod } from '../../lib/FormatTime'
+import { useNavigate } from 'react-router-dom'
 import type { Experience, IExperience } from '../../type'
+import ExperienceCard from '../ExperienceCard'
 import { Button } from '../ui/button'
 
 export default function ExperienceComp({
@@ -9,6 +10,7 @@ export default function ExperienceComp({
   onPageChange,
   dataExperience,
 }: IExperience) {
+  const navigate = useNavigate()
   return (
     <div className="grid grid-cols-12 gap-10">
       <div className="col-span-4 flex flex-col">
@@ -20,7 +22,10 @@ export default function ExperienceComp({
           and maintaining clean, maintainable codebases using React and Next.js.
         </p>
         <div className={`${dataExperience && dataExperience.length === 0 && 'hidden'} mt-10`}>
-          <p className="text-xs uppercase tracking-widest cursor-pointer transition-opacity duration-300 ">
+          <p
+            onClick={() => navigate('/experience')}
+            className="text-xs uppercase tracking-widest cursor-pointer transition-opacity duration-300 "
+          >
             View Experience →
           </p>
         </div>
@@ -30,18 +35,15 @@ export default function ExperienceComp({
           <p className="text-9xl text-center uppercase tracking-wide">No Data Found</p>
         ) : (
           dataExperience.map((exp: Experience) => (
-            <div key={exp.id} className="border border-border p-5 space-y-4">
-              <div>
-                <h2 className="text-base font-semibold uppercase tracking-wider">{exp.company}</h2>
-                <p className="text-sm font-medium pt-2">{exp.role}</p>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">{exp.description}</p>
-
-              <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wide">
-                <span>{exp.location}</span>
-                <span>{formatPeriod(exp.start_date, exp.end_date)}</span>
-              </div>
-            </div>
+            <ExperienceCard
+              id={exp.id}
+              company={exp.company}
+              role={exp.role}
+              description={exp.description}
+              location={exp.location}
+              start_date={exp.start_date}
+              end_date={exp.end_date}
+            />
           ))
         )}
         <div

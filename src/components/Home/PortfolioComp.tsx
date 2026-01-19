@@ -24,7 +24,10 @@ export default function PortfolioComp({
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-8xl uppercase tracking-wide">Portfolio</h1>
-        <p className="text-xs uppercase tracking-widest cursor-pointer transition-opacity duration-300 ">
+        <p
+          onClick={() => navigate('/portfolio')}
+          className="text-xs uppercase tracking-widest cursor-pointer transition-opacity duration-300 "
+        >
           View Project →
         </p>
       </div>

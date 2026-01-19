@@ -51,7 +51,6 @@ export default function CreateExperienceForm({
         }
       )
     } else {
-      // ✅ CREATE
       createExperience(data, {
         onSuccess: res => {
           toast.success(res.message || 'Experience added successfully')
@@ -68,7 +67,7 @@ export default function CreateExperienceForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div>
-        <Label>Company</Label>
+        <Label className="mb-3">Company</Label>
         <Input
           {...register('company', { required: 'Company is required' })}
           placeholder="Company name"
@@ -77,13 +76,13 @@ export default function CreateExperienceForm({
       </div>
 
       <div>
-        <Label>Role</Label>
+        <Label className="mb-3">Role</Label>
         <Input {...register('role', { required: 'Role is required' })} placeholder="Role" />
         {errors.role && <p className="text-sm text-red-500">{errors.role.message}</p>}
       </div>
 
       <div>
-        <Label>Description</Label>
+        <Label className="mb-3">Description</Label>
         <Textarea
           {...register('description', { required: 'Description is required' })}
           placeholder="Describe your responsibility"
@@ -92,7 +91,7 @@ export default function CreateExperienceForm({
       </div>
 
       <div>
-        <Label>Location</Label>
+        <Label className="mb-3">Location</Label>
         <Input
           {...register('location', { required: 'Location is required' })}
           placeholder="Location"
@@ -102,13 +101,13 @@ export default function CreateExperienceForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label>Start Date</Label>
+          <Label className="mb-3">Start Date</Label>
           <Input type="date" {...register('start_date', { required: 'Start date is required' })} />
           {errors.start_date && <p className="text-sm text-red-500">{errors.start_date.message}</p>}
         </div>
 
         <div>
-          <Label>End Date</Label>
+          <Label className="mb-3">End Date</Label>
           <Input
             type="date"
             {...register('end_date', {
@@ -118,7 +117,11 @@ export default function CreateExperienceForm({
         </div>
       </div>
 
-      <Button type="submit" className="w-full bg-white text-black" disabled={isSubmitting}>
+      <Button
+        type="submit"
+        className="w-full bg-white cursor-pointer text-black"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? 'Saving...' : experienceId ? 'Update Experience' : 'Save Experience'}
       </Button>
     </form>

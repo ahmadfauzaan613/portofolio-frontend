@@ -1,15 +1,17 @@
-import { useMutation } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import api from '../axios'
 
-export const getDetailPort = async (id: number) => {
+export const getDetailPort = async (id: number | string) => {
   const response = await api.get(`/api/v1/portfolios/${id}`, {
     withCredentials: true,
   })
-  return response.data
+  return response.data.data
 }
 
-export const useGetDetailPort = () => {
-  return useMutation({
-    mutationFn: (id: number) => getDetailPort(id),
+export const useGetDetailPort = (id?: number | string) => {
+  return useQuery({
+    queryKey: ['portfolio-detail', id],
+    queryFn: () => getDetailPort(id as number | string),
+    enabled: !!id,
   })
 }
