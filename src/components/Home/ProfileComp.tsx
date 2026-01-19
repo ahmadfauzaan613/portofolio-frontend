@@ -6,16 +6,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../../components/ui/tooltip'
-import type { ILinkResponse } from '../../type'
+import type { ILinkResponse, IPropsProfile } from '../../type'
 import { Button } from '../ui/button'
 
-interface IProps {
-  role: string
-  about: string
-  dataLink: []
-}
-
-export default function ProfileComp({ role, about, dataLink }: IProps) {
+export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
   const linkConfig: Record<string, { icon: React.ElementType; action: (url: string) => void }> = {
     WhatsApp: {
       icon: Phone,
@@ -34,8 +28,6 @@ export default function ProfileComp({ role, about, dataLink }: IProps) {
       action: url => window.open(url, '_blank'),
     },
   }
-
-  console.log(dataLink, 'dataLink')
 
   return (
     <div>

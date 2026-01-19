@@ -9,14 +9,13 @@ import { Textarea } from '../../../components/ui/textarea'
 import { useGetAllCategory } from '../../../hooks/Categories/useGetAllCat'
 import { useCreatePortfolio } from '../../../hooks/Portofolio/useCreatePortfolio'
 import { useUpdatePortfolio } from '../../../hooks/Portofolio/useUpdatePortfolio'
-import type { CategoryData, CreatePortfolioForm } from '../../../type'
+import type { CategoryData, CreatePortfolioForm, PropsPortfolio } from '../../../type'
 
-interface Props {
-  onSuccess?: () => void
-  defaultValues?: Partial<CreatePortfolioForm>
-  portfolioId?: number
-}
-export default function CreatePortfolioForm({ onSuccess, defaultValues, portfolioId }: Props) {
+export default function CreatePortfolioForm({
+  onSuccess,
+  defaultValues,
+  portfolioId,
+}: PropsPortfolio) {
   const { mutate: createPortfolio, isPending: creating } = useCreatePortfolio()
   const { mutate: updateExperience, isPending: updating } = useUpdatePortfolio()
   const { data: dataCategory } = useGetAllCategory()

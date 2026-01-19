@@ -6,15 +6,13 @@ import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { useCreateCategory } from '../../../hooks/Categories/useCreateCat'
 import { useUpdateCategory } from '../../../hooks/Categories/useUpdateCat'
-import type { CreateCategory } from '../../../type'
+import type { CreateCategory, PropsFormCategory } from '../../../type'
 
-interface Props {
-  onSuccess?: () => void
-  defaultValues?: Partial<CreateCategory>
-  categoryId?: number
-}
-
-export default function CreateCategoryForm({ onSuccess, defaultValues, categoryId }: Props) {
+export default function CreateCategoryForm({
+  onSuccess,
+  defaultValues,
+  categoryId,
+}: PropsFormCategory) {
   const { mutate: createCategory, isPending: creating } = useCreateCategory()
   const { mutate: updateCategory, isPending: updating } = useUpdateCategory()
   const isSubmitting = creating || updating

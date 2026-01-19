@@ -184,3 +184,34 @@ export interface PortfolioForm {
   link: string
   category: string
 }
+
+export interface PropsFormCategory {
+  onSuccess?: () => void
+  defaultValues?: Partial<CreateCategory>
+  categoryId?: number
+}
+
+export interface PropsExperience {
+  onSuccess?: () => void
+  defaultValues?: Partial<CreateExperiencePayload>
+  experienceId?: number
+}
+
+export interface PropsPortfolio {
+  onSuccess?: () => void
+  defaultValues?: Partial<CreatePortfolioForm>
+  portfolioId?: number
+}
+
+export interface IExperience {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+  dataExperience: []
+}
+
+export interface IPropsProfile {
+  role: string
+  about: string
+  dataLink: []
+}

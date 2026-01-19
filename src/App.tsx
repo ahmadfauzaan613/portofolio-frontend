@@ -10,11 +10,20 @@ import PortofolioAdmin from './pages/Admin/Portofolio/Portofolio'
 import Profile from './pages/Admin/Profile'
 import Experience from './pages/Experience'
 import Home from './pages/Home'
+import NotFound from './pages/NotFound'
 import Portofolio from './pages/Portofolio'
 
 export default function App() {
   return (
     <Routes>
+      <Route
+        path="*"
+        element={
+          <WrapperTamplate container={false} viewNavbar={false}>
+            <NotFound />
+          </WrapperTamplate>
+        }
+      />
       <Route
         path="/"
         element={

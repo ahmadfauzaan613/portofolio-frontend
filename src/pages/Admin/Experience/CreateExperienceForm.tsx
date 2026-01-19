@@ -7,15 +7,13 @@ import { Label } from '../../../components/ui/label'
 import { Textarea } from '../../../components/ui/textarea'
 import { useCreateExperience } from '../../../hooks/Experience/useCreateExp'
 import { useUpdateExperience } from '../../../hooks/Experience/useUpdateExp'
-import type { CreateExperiencePayload } from '../../../type'
+import type { CreateExperiencePayload, PropsExperience } from '../../../type'
 
-interface Props {
-  onSuccess?: () => void
-  defaultValues?: Partial<CreateExperiencePayload>
-  experienceId?: number
-}
-
-export default function CreateExperienceForm({ onSuccess, defaultValues, experienceId }: Props) {
+export default function CreateExperienceForm({
+  onSuccess,
+  defaultValues,
+  experienceId,
+}: PropsExperience) {
   const { mutate: createExperience, isPending: creating } = useCreateExperience()
   const { mutate: updateExperience, isPending: updating } = useUpdateExperience()
   const isSubmitting = creating || updating
