@@ -61,21 +61,45 @@ export default function CreatePortfolioForm({ onSuccess, defaultValues, portfoli
   const onSubmit = (data: CreatePortfolioForm) => {
     const formData = new FormData()
 
-    formData.append('imageBanner', data.imageBanner[0])
-
-    data.logos.filter(Boolean).forEach(file => {
-      formData.append('logo', file as File)
-    })
-
-    data.images.filter(Boolean).forEach(file => {
-      formData.append('allImage', file as File)
-    })
-    formData.append('title', data.short_desc)
+    // =====================
+    // TEXT FIELDS (AMAN)
+    // =====================
+    formData.append('title', data.title)
     formData.append('short_desc', data.short_desc)
     formData.append('description', data.description)
     formData.append('link', data.link)
     formData.append('category', data.category)
 
+    // =====================
+    // IMAGE BANNER
+    // =====================
+    if (data.imageBanner && data.imageBanner.length > 0) {
+      formData.append('imageBanner', data.imageBanner[0])
+    }
+
+    // =====================
+    // LOGO (ONLY IF USER UPLOAD)
+    // =====================
+    const validLogos = data.logos.filter(Boolean)
+    if (validLogos.length > 0) {
+      validLogos.forEach(file => {
+        formData.append('logo', file as File)
+      })
+    }
+
+    // =====================
+    // ALL IMAGE (ONLY IF USER UPLOAD)
+    // =====================
+    const validImages = data.images.filter(Boolean)
+    if (validImages.length > 0) {
+      validImages.forEach(file => {
+        formData.append('allImage', file as File)
+      })
+    }
+
+    // =====================
+    // CREATE vs UPDATE
+    // =====================
     if (portfolioId) {
       updateExperience(
         { id: portfolioId, formData },
@@ -84,9 +108,7 @@ export default function CreatePortfolioForm({ onSuccess, defaultValues, portfoli
             toast.success(res.message || 'Portfolio updated successfully')
             onSuccess?.()
           },
-          onError: () => {
-            toast.error('Failed to update portfolio')
-          },
+          onError: () => toast.error('Failed to update portfolio'),
         }
       )
       return
@@ -98,9 +120,7 @@ export default function CreatePortfolioForm({ onSuccess, defaultValues, portfoli
         reset()
         onSuccess?.()
       },
-      onError: () => {
-        toast.error('Failed Created Portfolio')
-      },
+      onError: () => toast.error('Failed Created Portfolio'),
     })
   }
 

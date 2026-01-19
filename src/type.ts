@@ -1,5 +1,16 @@
 import type { ReactNode } from 'react'
 
+export interface ExistingImage {
+  type: 'existing'
+  value: string
+}
+
+export interface NewImage {
+  type: 'new'
+  value: File
+}
+
+export type ImageItem = ExistingImage | NewImage
 export interface FormValues {
   oldPassword: string
   newPassword: string
@@ -152,15 +163,16 @@ export interface Log {
 
 export interface CreatePortfolioForm {
   title: string
-  imageBanner: FileList
-  logos: (File | null)[]
-  images: (File | null)[]
   short_desc: string
   description: string
   link: string
   category: string
-}
 
+  imageBanner?: FileList
+
+  logos: (File | null)[]
+  images: (File | null)[]
+}
 export interface PortfolioForm {
   id: number
   title: string
