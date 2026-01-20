@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 import Table from '../../../components/Table'
 import { Button } from '../../../components/ui/button'
-import { useCleanupLogs } from '../../../hooks/Logs/useCleanLog'
-import { useGetLogs } from '../../../hooks/Logs/useGetLogs'
+import { useCleanupLogs } from '../../../hooks/LogsApi/useCleanLog'
+import { useGetLogs } from '../../../hooks/LogsApi/useGetLogs'
 import { logColumns } from './columns'
 
 export default function Logs() {
