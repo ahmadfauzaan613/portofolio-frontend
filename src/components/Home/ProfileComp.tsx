@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { FileText, Linkedin, Mail, Phone } from 'lucide-react'
-import ImgHome from '../../assets/images/homefoto.jpg'
 import {
   Tooltip,
   TooltipContent,
@@ -59,7 +58,7 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
           className="relative my-10 h-[30vh] sm:h-[40vh] lg:h-[45vh] overflow-hidden"
         >
           <img
-            src={ImgHome}
+            src={'../../../public/images/homefoto.JPG'}
             alt="Hero visual"
             className="w-full h-full object-cover object-[center_30%]"
           />
