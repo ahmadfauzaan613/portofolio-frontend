@@ -7,6 +7,7 @@ import ProfileComp from '../components/Home/ProfileComp'
 import { useGetExperiences } from '../hooks/Experience/useGetAllExp'
 import { useGetAllportfolio } from '../hooks/Portofolio/useGetAllportfolio'
 import { useGetAllProfile } from '../hooks/Profile/useGetProfile'
+
 export default function Home() {
   const [page, setPage] = useState(1)
   const { data: experienceData } = useGetExperiences(page, 3)

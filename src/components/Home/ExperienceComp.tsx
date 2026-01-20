@@ -1,5 +1,8 @@
+import type { Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { cn } from '../../lib/utils'
 import type { Experience, IExperience } from '../../type'
 import ExperienceCard from '../ExperienceCard'
 import { Button } from '../ui/button'
@@ -11,50 +14,100 @@ export default function ExperienceComp({
   dataExperience,
 }: IExperience) {
   const navigate = useNavigate()
+  const fadeUp: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.45,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    },
+  }
+
+  const staggerList: Variants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  }
   return (
-    <div className="grid grid-cols-12 gap-10">
-      <div className="col-span-4 flex flex-col">
-        <h1 className="text-6xl font-black uppercase tracking-wide leading-none">Experience</h1>
-        <p className="text-sm leading-relaxed text-muted-foreground text-justify mt-5">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 px-4">
+      {/* LEFT / INTRO */}
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.4 }}
+        className="lg:col-span-4 flex flex-col"
+      >
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black uppercase tracking-wide leading-none">
+          Experience
+        </h1>
+
+        <p className="mt-4 text-sm sm:text-base leading-relaxed text-muted-foreground text-justify">
           Over nearly four years of professional experience, I have worked on multiple web-based
           products, contributing to scalable frontend architectures and reliable backend services.
           My work focuses on building reusable components, integrating APIs, optimizing performance,
           and maintaining clean, maintainable codebases using React and Next.js.
         </p>
-        <div className={`${dataExperience && dataExperience.length === 0 && 'hidden'} mt-10`}>
+
+        <div className={cn(dataExperience?.length === 0 && 'hidden', 'mt-6')}>
           <p
             onClick={() => navigate('/experience')}
-            className="text-xs uppercase tracking-widest cursor-pointer transition-opacity duration-300 "
+            className="text-xs uppercase tracking-widest cursor-pointer opacity-70 hover:opacity-100 transition"
           >
             View Experience →
           </p>
         </div>
-      </div>
-      <div className="col-span-8 space-y-6">
+      </motion.div>
+
+      {/* RIGHT / LIST */}
+      <motion.div
+        variants={staggerList}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="lg:col-span-8 space-y-4"
+      >
         {dataExperience && dataExperience.length === 0 ? (
-          <p className="text-9xl text-center uppercase tracking-wide">No Data Found</p>
+          <motion.p
+            variants={fadeUp}
+            className="text-3xl sm:text-4xl lg:text-6xl text-center uppercase tracking-wide text-muted-foreground"
+          >
+            No Data Found
+          </motion.p>
         ) : (
           dataExperience.map((exp: Experience) => (
-            <ExperienceCard
-              id={exp.id}
-              company={exp.company}
-              role={exp.role}
-              description={exp.description}
-              location={exp.location}
-              start_date={exp.start_date}
-              end_date={exp.end_date}
-            />
+            <motion.div key={exp.id} variants={fadeUp}>
+              <ExperienceCard
+                id={exp.id}
+                company={exp.company}
+                role={exp.role}
+                description={exp.description}
+                location={exp.location}
+                start_date={exp.start_date}
+                end_date={exp.end_date}
+              />
+            </motion.div>
           ))
         )}
+
+        {/* PAGINATION */}
         <div
-          className={`${dataExperience && dataExperience.length === 0 && 'hidden'} flex justify-end items-center gap-2 `}
+          className={cn(
+            dataExperience && dataExperience.length === 0 && 'hidden',
+            'flex justify-end items-center gap-2 pt-4'
+          )}
         >
           <Button
             variant="outline"
-            size="sm"
+            size="icon"
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="cursor-pointer"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -66,7 +119,8 @@ export default function ExperienceComp({
                 variant={currentPage === page ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => onPageChange(page)}
-                className={`h-8 w-8 cursor-pointer ${currentPage === page ? 'pointer-events-none' : ''}`}
+                disabled={currentPage === page}
+                className="h-8 w-8"
               >
                 {page}
               </Button>
@@ -75,15 +129,14 @@ export default function ExperienceComp({
 
           <Button
             variant="outline"
-            size="sm"
+            size="icon"
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages || totalPages === 0}
-            className="cursor-pointer"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

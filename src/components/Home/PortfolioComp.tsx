@@ -1,3 +1,5 @@
+import type { Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '../../lib/utils'
@@ -20,80 +22,130 @@ export default function PortfolioComp({
 }: IProject) {
   const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
   const navigate = useNavigate()
+
+  const fadeUp: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.45,
+        ease: [0.16, 1, 0.3, 1] as const,
+      },
+    },
+  }
+
+  const staggerGrid: Variants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  }
+
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-8xl uppercase tracking-wide">Portfolio</h1>
+    <div className="px-4">
+      {/* HEADER */}
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.4 }}
+        className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
+      >
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl uppercase tracking-wide font-black">
+          Portfolio
+        </h1>
+
         <p
           onClick={() => navigate('/portfolio')}
-          className="text-xs uppercase tracking-widest cursor-pointer transition-opacity duration-300 "
+          className="text-xs uppercase tracking-widest cursor-pointer opacity-70 hover:opacity-100 transition"
         >
           View Project →
         </p>
-      </div>
-      <div className={`gap-8 ${dataPortfolio.length !== 0 && 'grid grid-cols-3'} mt-20`}>
+      </motion.div>
+
+      {/* GRID */}
+      <motion.div
+        variants={staggerGrid}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className={cn(
+          'mt-12',
+          dataPortfolio.length > 0 && 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
+        )}
+      >
         {dataPortfolio.length === 0 ? (
-          <div className="flex items-center justify-center">
-            <p className="text-3xl text-center uppercase tracking-wide">No Data Found</p>
-          </div>
+          <motion.div variants={fadeUp} className="flex items-center justify-center min-h-[40vh]">
+            <p className="text-2xl sm:text-3xl uppercase tracking-wide text-muted-foreground">
+              No Data Found
+            </p>
+          </motion.div>
         ) : (
           dataPortfolio.map((item: PortfolioForm) => (
-            <Card
-              key={item.id}
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/portfolio/${item.id}`)}
-              onKeyDown={e => e.key === 'Enter' && navigate(`/portfolio/${item.id}`)}
-              className={cn(
-                'group cursor-pointer overflow-hidden rounded-none border border-border',
-                'transition-all duration-300 ease-out',
-                'hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10',
-                'focus-visible:ring-2 focus-visible:ring-ring',
-                'p-0'
-              )}
-            >
-              {/* CONTENT */}
-              <div className="flex flex-col justify-between h-55 p-5">
-                <div className="space-y-2">
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                    {item.category}
-                  </p>
+            <motion.div key={item.id} variants={fadeUp}>
+              <Card
+                role="button"
+                tabIndex={0}
+                onClick={() => navigate(`/portfolio/${item.id}`)}
+                onKeyDown={e => e.key === 'Enter' && navigate(`/portfolio/${item.id}`)}
+                className={cn(
+                  'group cursor-pointer overflow-hidden border border-border',
+                  'transition-all duration-300 ease-out',
+                  'hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10',
+                  'focus-visible:ring-2 focus-visible:ring-ring',
+                  'rounded-xl p-0'
+                )}
+              >
+                {/* CONTENT */}
+                <div className="flex flex-col justify-between p-5 h-47.5">
+                  <div className="space-y-2">
+                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                      {item.category}
+                    </p>
 
-                  <h2 className="text-xl font-extrabold uppercase leading-tight tracking-tight line-clamp-2">
-                    {item.title}
-                  </h2>
+                    <h2 className="text-lg font-extrabold uppercase leading-tight tracking-tight line-clamp-2">
+                      {item.title}
+                    </h2>
 
-                  <p className="text-[12px] uppercase tracking-widest text-muted-foreground line-clamp-2">
-                    {item.short_desc}
-                  </p>
+                    <p className="text-xs uppercase tracking-widest text-muted-foreground line-clamp-2">
+                      {item.short_desc}
+                    </p>
+                  </div>
+
+                  <span className="mt-4 text-xs uppercase tracking-widest text-primary opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                    View Project →
+                  </span>
                 </div>
-
-                <span className="text-xs uppercase tracking-widest opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  View Project →
-                </span>
-              </div>
-
-              <div className="relative h-65 overflow-hidden">
-                <img
-                  src={`${IMAGE_BASE_URL}/${item.image_banner}`}
-                  alt={item.short_desc}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-            </Card>
+                {/* IMAGE */}
+                <div className="relative h-44 sm:h-48 overflow-hidden">
+                  <img
+                    src={`${IMAGE_BASE_URL}/${item.image_banner}`}
+                    alt={item.short_desc}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition" />
+                </div>
+              </Card>
+            </motion.div>
           ))
         )}
-        {}
-      </div>
+      </motion.div>
+
+      {/* PAGINATION */}
       <div
-        className={`${dataPortfolio.length === 0 && 'hidden'} flex justify-end items-center gap-2 mt-10`}
+        className={cn(
+          'mt-10 flex justify-end items-center gap-2',
+          dataPortfolio.length === 0 && 'hidden'
+        )}
       >
         <Button
           variant="outline"
-          size="sm"
+          size="icon"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="cursor-pointer"
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
@@ -105,7 +157,8 @@ export default function PortfolioComp({
               variant={currentPage === page ? 'default' : 'outline'}
               size="sm"
               onClick={() => onPageChange(page)}
-              className={`h-8 w-8 cursor-pointer ${currentPage === page ? 'pointer-events-none' : ''}`}
+              disabled={currentPage === page}
+              className="h-8 w-8"
             >
               {page}
             </Button>
@@ -114,10 +167,9 @@ export default function PortfolioComp({
 
         <Button
           variant="outline"
-          size="sm"
+          size="icon"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages || totalPages === 0}
-          className="cursor-pointer"
         >
           <ChevronRight className="h-4 w-4" />
         </Button>

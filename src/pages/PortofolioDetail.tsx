@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
 // lucide
+import { AnimatePresence, motion } from 'framer-motion'
 import { ExternalLink, X, ZoomIn } from 'lucide-react'
 
 export default function PortofolioDetail() {
@@ -30,127 +31,158 @@ export default function PortofolioDetail() {
   if (!data) return null
 
   return (
-    <article className="pb-16">
-      {/* CATEGORY */}
-      <div className="mt-14 mb-4">
+    <article className="pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="mt-16 mb-6"
+      >
         <Badge variant="secondary" className="uppercase tracking-widest">
           {result(data, 'category', '')}
         </Badge>
-      </div>
+      </motion.div>
 
       {/* TITLE + CTA */}
-      <div className="flex items-end justify-between gap-6">
-        <h1 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight max-w-3xl"
+        >
           {result(data, 'title', '')}
-        </h1>
+        </motion.h1>
 
         {result(data, 'link', '') && (
-          <Button variant="ghost" size="sm" asChild className="uppercase tracking-widest gap-2">
-            <a href={data.link} target="_blank" rel="noopener noreferrer">
-              Demo
-              <ExternalLink className="h-4 w-4" />
-            </a>
-          </Button>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+            <Button variant="ghost" size="sm" asChild className="uppercase tracking-widest gap-2">
+              <a href={data.link} target="_blank" rel="noopener noreferrer">
+                Demo
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Button>
+          </motion.div>
         )}
       </div>
-
       {/* HERO IMAGE */}
-      <div className="relative my-14 h-[55vh] overflow-hidden rounded-2xl">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className="relative my-16 h-[40vh] sm:h-[50vh] md:h-[60vh] overflow-hidden rounded-3xl"
+      >
         <img
           src={`${IMAGE_BASE_URL}/${data.image_banner}`}
           alt={data.title}
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-black/30 via-black/10 to-transparent" />
-      </div>
-
+        <div className="absolute inset-0 bg-linear-to-t from-black/40 via-black/10 to-transparent" />
+      </motion.div>
       {/* TECH STACK */}
       {result(data, 'logo', []).length > 0 && (
-        <section className="my-16">
-          <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-5">
+        <section className="my-20">
+          <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-6">
             Tech Stack
           </h2>
 
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap gap-4">
             {result(data, 'logo', []).map((img: string, idx: number) => (
-              <div
+              <motion.div
                 key={idx}
-                className="p-2 rounded-md border bg-background hover:shadow-sm transition"
+                whileHover={{ y: -4, scale: 1.05 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="p-3 rounded-lg border bg-background shadow-sm"
               >
                 <img
                   src={`${IMAGE_BASE_URL}/${img}`}
                   alt="tech"
-                  className="h-8 w-auto object-contain opacity-80"
+                  className="h-8 w-auto opacity-80"
                 />
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
       )}
-
       {/* CONTENT */}
-      <div className="prose prose-neutral dark:prose-invert max-w-none leading-relaxed">
+      <div className="prose prose-neutral dark:prose-invert leading-relaxed text-base sm:text-lg">
         <p>{result(data, 'description', '')}</p>
       </div>
-
       {/* GALLERY */}
       {result(data, 'all_image', []).length > 0 && (
-        <section className="mt-24">
-          <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-8">Preview</h2>
+        <section className="mt-28">
+          <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-10">Preview</h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: {},
+              show: {
+                transition: { staggerChildren: 0.08 },
+              },
+            }}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"
+          >
             {result(data, 'all_image', []).map((img: string, idx: number) => (
-              <button
+              <motion.button
                 key={idx}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  show: { opacity: 1, y: 0 },
+                }}
+                whileHover={{ scale: 1.03 }}
                 onClick={() => setActiveImage(img)}
-                className="group relative overflow-hidden rounded-xl border focus:outline-none"
+                className="group relative overflow-hidden rounded-xl border"
               >
                 <img
                   src={`${IMAGE_BASE_URL}/${img}`}
                   alt={`gallery-${idx}`}
-                  className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-
-                {/* Zoom Icon */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition flex items-center justify-center">
                   <ZoomIn className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition" />
                 </div>
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
         </section>
       )}
-
       {/* LIGHTBOX */}
-      {activeImage && (
-        <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-6"
-          onClick={() => setActiveImage(null)} // klik OUTSIDE
-        >
-          {/* CONTENT */}
-          <div
-            onClick={e => e.stopPropagation()} // ⛔ stop bubbling
-            className="relative"
+      <AnimatePresence>
+        {activeImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6"
+            onClick={() => setActiveImage(null)}
           >
-            {/* Close Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute -top-12 right-0 text-white"
-              onClick={() => setActiveImage(null)}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={e => e.stopPropagation()}
+              className="relative"
             >
-              <X className="h-6 w-6" />
-            </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute -top-12 right-0 text-white"
+                onClick={() => setActiveImage(null)}
+              >
+                <X className="h-6 w-6" />
+              </Button>
 
-            {/* IMAGE */}
-            <img
-              src={`${IMAGE_BASE_URL}/${activeImage}`}
-              alt="preview"
-              className="max-h-[90vh] max-w-[90vw] object-contain rounded-xl shadow-2xl"
-            />
-          </div>
-        </div>
-      )}
+              <img
+                src={`${IMAGE_BASE_URL}/${activeImage}`}
+                alt="preview"
+                className="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </article>
   )
 }

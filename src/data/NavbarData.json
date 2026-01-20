@@ -1,7 +1,7 @@
 {
   "data": [
-    { "name": "Home", "link": "home" },
-    { "name": "Experience", "link": "experience" },
-    { "name": "Portfolio", "link": "portfolio" }
+    { "name": "Home", "link": "home", "navigate": "/" },
+    { "name": "Experience", "link": "experience", "navigate": "/experience" },
+    { "name": "Portfolio", "link": "portfolio", "navigate": "/portfolio" }
   ]
 }
