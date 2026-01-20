@@ -58,7 +58,7 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
           className="relative my-10 h-[30vh] sm:h-[40vh] lg:h-[45vh] overflow-hidden"
         >
           <img
-            src={'../../../public/images/homefoto.JPG'}
+            src={'/images/homefoto.JPG'}
             alt="Hero visual"
             className="w-full h-full object-cover object-[center_30%]"
           />
