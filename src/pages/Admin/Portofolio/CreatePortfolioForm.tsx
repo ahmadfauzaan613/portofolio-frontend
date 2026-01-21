@@ -192,7 +192,7 @@ export default function CreatePortfolioForm({
 
       <div>
         <Label className="mb-3">Project Link</Label>
-        <Input {...register('link', { required: true })} />
+        <Input {...register('link')} />
       </div>
 
       <div>
