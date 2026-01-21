@@ -60,7 +60,7 @@ export default function PortfolioComp({
 
         <p
           onClick={() => navigate('/portfolio')}
-          className="text-xs uppercase tracking-widest cursor-pointer opacity-70 hover:opacity-100 transition"
+          className={`${dataPortfolio.length === 0 && 'hidden'} text-xs uppercase tracking-widest cursor-pointer opacity-70 hover:opacity-100 transition`}
         >
           View Project →
         </p>
@@ -78,10 +78,15 @@ export default function PortfolioComp({
         )}
       >
         {dataPortfolio.length === 0 ? (
-          <motion.div variants={fadeUp} className="flex items-center justify-center min-h-[40vh]">
-            <p className="text-2xl sm:text-3xl uppercase tracking-wide text-muted-foreground">
-              No Data Found
-            </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="h-[60vh] grid place-items-center text-center"
+          >
+            <div className="space-y-4">
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight">No Portfolio Yet</h2>
+            </div>
           </motion.div>
         ) : (
           dataPortfolio.map((item: PortfolioForm) => (

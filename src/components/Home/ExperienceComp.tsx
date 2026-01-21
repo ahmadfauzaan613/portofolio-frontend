@@ -74,12 +74,19 @@ export default function ExperienceComp({
         className="lg:col-span-8 space-y-4"
       >
         {dataExperience && dataExperience.length === 0 ? (
-          <motion.p
-            variants={fadeUp}
-            className="text-3xl sm:text-4xl lg:text-6xl text-center uppercase tracking-wide text-muted-foreground"
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="h-[60vh] grid place-items-center text-center"
           >
-            No Data Found
-          </motion.p>
+            <div className="space-y-4">
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight">No Experience Yet</h2>
+              <p className="text-muted-foreground text-sm">
+                Your professional journey will appear here.
+              </p>
+            </div>
+          </motion.div>
         ) : (
           dataExperience.map((exp: Experience) => (
             <motion.div key={exp.id} variants={fadeUp}>
@@ -99,8 +106,8 @@ export default function ExperienceComp({
         {/* PAGINATION */}
         <div
           className={cn(
-            dataExperience && dataExperience.length === 0 && 'hidden',
-            'flex justify-end items-center gap-2 pt-4'
+            'flex justify-end items-center gap-2 pt-4',
+            dataExperience && dataExperience.length === 0 && 'hidden'
           )}
         >
           <Button
