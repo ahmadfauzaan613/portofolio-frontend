@@ -30,6 +30,9 @@ export default function PortofolioDetail() {
 
   if (!data) return null
 
+  const isNotEmptyString = (value?: string) => !!value && value.trim() !== ''
+  const isNotEmptyArray = (value?: unknown[]) => Array.isArray(value) && value.length > 0
+
   return (
     <article className="pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div
@@ -70,7 +73,7 @@ export default function PortofolioDetail() {
           {result(data, 'title', '')}
         </motion.h1>
 
-        {result(data, 'link', '') && (
+        {isNotEmptyString(data.link) && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
             <Button variant="ghost" size="sm" asChild className="uppercase tracking-widest gap-2">
               <a href={data.link} target="_blank" rel="noopener noreferrer">
@@ -125,7 +128,7 @@ export default function PortofolioDetail() {
         <p>{result(data, 'description', '')}</p>
       </div>
       {/* GALLERY */}
-      {result(data, 'all_image', []).length > 0 && (
+      {isNotEmptyArray(data.all_image) ? (
         <section className="mt-28">
           <h2 className="text-sm uppercase tracking-widest text-muted-foreground mb-10">Preview</h2>
 
@@ -134,13 +137,11 @@ export default function PortofolioDetail() {
             animate="show"
             variants={{
               hidden: {},
-              show: {
-                transition: { staggerChildren: 0.08 },
-              },
+              show: { transition: { staggerChildren: 0.08 } },
             }}
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"
           >
-            {result(data, 'all_image', []).map((img: string, idx: number) => (
+            {data.all_image.map((img: string, idx: number) => (
               <motion.button
                 key={idx}
                 variants={{
@@ -162,6 +163,13 @@ export default function PortofolioDetail() {
               </motion.button>
             ))}
           </motion.div>
+        </section>
+      ) : (
+        <section className="mt-28 text-center">
+          <p className="text-sm uppercase tracking-widest text-muted-foreground">
+            Preview not available
+          </p>
+          <p className="mt-2 text-muted-foreground">Visual previews will be added in the future.</p>
         </section>
       )}
       {/* LIGHTBOX */}
