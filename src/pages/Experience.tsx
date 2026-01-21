@@ -31,13 +31,6 @@ export default function Experience() {
     },
   }
 
-  const listVariants: Variants = {
-    hidden: {},
-    show: {
-      transition: { staggerChildren: 0.08 },
-    },
-  }
-
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 16 },
     show: {
@@ -84,9 +77,10 @@ export default function Experience() {
       {/* LIST */}
       {result(experienceData, 'data.items', []).length > 0 && (
         <motion.div
-          variants={listVariants}
-          initial="hidden"
-          animate="show"
+          key={page}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
           className="mt-12 space-y-4"
         >
           {result(experienceData, 'data.items', []).map((exp: Experience) => (

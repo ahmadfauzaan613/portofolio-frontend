@@ -1,6 +1,6 @@
 import { result } from 'lodash'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetDetailPort } from '../hooks/Portofolio/useGetDetailPort'
 
 // shadcn
@@ -9,12 +9,12 @@ import { Button } from '@/components/ui/button'
 
 // lucide
 import { AnimatePresence, motion } from 'framer-motion'
-import { ExternalLink, X, ZoomIn } from 'lucide-react'
+import { ArrowLeft, ExternalLink, X, ZoomIn } from 'lucide-react'
 
 export default function PortofolioDetail() {
   const { id } = useParams<{ id: string }>()
   const portfolioId = id ? Number(id) : undefined
-
+  const navigate = useNavigate()
   const [activeImage, setActiveImage] = useState<string | null>(null)
 
   const { data, isLoading } = useGetDetailPort(portfolioId)
@@ -33,10 +33,26 @@ export default function PortofolioDetail() {
   return (
     <article className="pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <motion.div
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+        className="mt-10 mb-5"
+      >
+        <Button
+          variant="default"
+          size="sm"
+          onClick={() => navigate(-1)}
+          className="uppercase cursor-pointer tracking-widest gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </Button>
+      </motion.div>
+      <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mt-16 mb-6"
+        className="mb-6"
       >
         <Badge variant="secondary" className="uppercase tracking-widest">
           {result(data, 'category', '')}

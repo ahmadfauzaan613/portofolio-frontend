@@ -13,7 +13,7 @@ export default function Portofolio() {
   const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
   const navigate = useNavigate()
   const [pagePortfolio, setPortfolio] = useState(1)
-  const { data: portfolioData } = useGetAllportfolio(pagePortfolio, 8)
+  const { data: portfolioData } = useGetAllportfolio(pagePortfolio, 6)
   const onPageChange = (newPage: number) => {
     if (newPage < 1) return
     const totalPages = result(portfolioData, 'data.pagination.total_pages', 1)
@@ -46,15 +46,11 @@ export default function Portofolio() {
         </motion.div>
       ) : (
         <motion.div
-          initial="hidden"
-          animate="show"
-          variants={{
-            hidden: {},
-            show: {
-              transition: { staggerChildren: 0.08 },
-            },
-          }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          key={pagePortfolio}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6"
         >
           {result(portfolioData, 'data.items', []).map((item: PortfolioForm) => (
             <motion.div
@@ -114,7 +110,7 @@ export default function Portofolio() {
 
       <div
         className={cn(
-          'mt-10 flex flex-wrap items-center justify-end gap-2',
+          'my-10 flex flex-wrap items-center justify-end gap-2',
           result(portfolioData, 'data.items', []).length === 0 && 'hidden'
         )}
       >

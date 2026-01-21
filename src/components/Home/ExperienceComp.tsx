@@ -106,7 +106,7 @@ export default function ExperienceComp({
         {/* PAGINATION */}
         <div
           className={cn(
-            'flex justify-end items-center gap-2 pt-4',
+            'justify-end items-center gap-2 pt-4 hidden',
             dataExperience && dataExperience.length === 0 && 'hidden'
           )}
         >

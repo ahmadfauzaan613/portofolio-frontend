@@ -142,7 +142,7 @@ export default function PortfolioComp({
       {/* PAGINATION */}
       <div
         className={cn(
-          'mt-10 flex justify-end items-center gap-2',
+          'mt-10 hidden justify-end items-center gap-2',
           dataPortfolio.length === 0 && 'hidden'
         )}
       >

@@ -13,7 +13,7 @@ export default function Home() {
   const { data: experienceData } = useGetExperiences(page, 3)
   const { data: profile } = useGetAllProfile()
   const [pagePortfolio, setPortfolio] = useState(1)
-  const { data: portfolioData } = useGetAllportfolio(pagePortfolio, 3)
+  const { data: portfolioData } = useGetAllportfolio(pagePortfolio, 6)
 
   return (
     <div>
@@ -35,7 +35,7 @@ export default function Home() {
       </section>
 
       {/* portfolio */}
-      <section id="portfolio" className="min-h-screen snap-start pt-28">
+      <section id="portfolio" className="min-h-screen snap-start py-28">
         <PortfolioComp
           currentPage={result(portfolioData, 'data.pagination.current_page', 1)}
           totalPages={result(portfolioData, 'data.pagination.total_pages', 1)}
