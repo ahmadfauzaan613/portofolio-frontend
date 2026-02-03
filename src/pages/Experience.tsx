@@ -20,13 +20,22 @@ export default function Experience() {
   }
 
   const titleVariants: Variants = {
-    hidden: { opacity: 0, y: 12 },
+    hidden: { opacity: 0, y: 8 },
     show: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.4,
+        duration: 0.35,
         ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  }
+
+  const listVariants: Variants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.08,
       },
     },
   }
@@ -37,11 +46,13 @@ export default function Experience() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.4,
+        duration: 0.3,
         ease: [0.16, 1, 0.3, 1],
       },
     },
   }
+
+  const items = result(experienceData, 'data.items', [])
 
   return (
     <div className="px-4">
@@ -50,22 +61,26 @@ export default function Experience() {
         variants={titleVariants}
         initial="hidden"
         animate="show"
-        className="text-3xl sm:text-4xl md:text-5xl uppercase tracking-wide mt-16"
+        className="
+          text-3xl sm:text-4xl md:text-5xl
+          uppercase tracking-wide font-black
+          mt-10 sm:mt-14
+        "
       >
         Experience
       </motion.h1>
 
       {/* EMPTY STATE */}
       <AnimatePresence>
-        {result(experienceData, 'data.items', []).length === 0 && (
+        {items.length === 0 && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="h-[60vh] grid place-items-center text-center"
+            className="min-h-[40vh] grid place-items-center text-center"
           >
-            <div className="space-y-4">
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight">No Experience Yet</h2>
+            <div className="space-y-3">
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight">No Experience Yet</h2>
               <p className="text-muted-foreground text-sm">
                 Your professional journey will appear here.
               </p>
@@ -75,15 +90,15 @@ export default function Experience() {
       </AnimatePresence>
 
       {/* LIST */}
-      {result(experienceData, 'data.items', []).length > 0 && (
+      {items.length > 0 && (
         <motion.div
           key={page}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="mt-12 space-y-4"
+          variants={listVariants}
+          initial="hidden"
+          animate="show"
+          className="mt-8 sm:mt-12 space-y-3 sm:space-y-4"
         >
-          {result(experienceData, 'data.items', []).map((exp: Experience) => (
+          {items.map((exp: Experience) => (
             <motion.div key={exp.id} variants={itemVariants}>
               <ExperienceCard
                 id={exp.id}
@@ -102,8 +117,8 @@ export default function Experience() {
       {/* PAGINATION */}
       <div
         className={cn(
-          'mt-10 flex flex-wrap items-center justify-end gap-2',
-          result(experienceData, 'data.items', []).length === 0 && 'hidden'
+          'mt-8 sm:mt-12 flex flex-wrap items-center justify-end gap-2',
+          items.length === 0 && 'hidden'
         )}
       >
         <Button
@@ -121,20 +136,20 @@ export default function Experience() {
           {Array.from(
             { length: result(experienceData, 'data.pagination.total_pages', 1) },
             (_, i) => i + 1
-          ).map(page => (
+          ).map(p => (
             <Button
-              key={page}
+              key={p}
               size="sm"
               variant={
-                result(experienceData, 'data.pagination.current_page', 1) === page
+                result(experienceData, 'data.pagination.current_page', 1) === p
                   ? 'default'
                   : 'outline'
               }
-              onClick={() => onPageChange(page)}
-              disabled={result(experienceData, 'data.pagination.current_page', 1) === page}
+              onClick={() => onPageChange(p)}
+              disabled={result(experienceData, 'data.pagination.current_page', 1) === p}
               className="h-8 w-8"
             >
-              {page}
+              {p}
             </Button>
           ))}
         </div>

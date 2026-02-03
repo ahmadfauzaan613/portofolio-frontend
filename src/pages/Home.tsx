@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <div>
-      <section id="home" className="min-h-screen snap-start pt-28">
+      <section id="home" className="min-h-svh pt-24 md:pt-28 md:snap-start">
         <ProfileComp
           role={result(profile, 'role', '')}
           about={result(profile, 'about', '')}
@@ -25,7 +25,7 @@ export default function Home() {
         />
       </section>
       {/* EXPERIENCE */}
-      <section id="experience" className="min-h-screen snap-start pt-28">
+      <section id="experience" className="min-h-svh pt-24 md:pt-28 md:snap-start">
         <ExperienceComp
           currentPage={result(experienceData, 'data.pagination.current_page', 1)}
           totalPages={result(experienceData, 'data.pagination.total_pages', 1)}
@@ -35,14 +35,7 @@ export default function Home() {
       </section>
 
       {/* portfolio */}
-      <section
-        id="portfolio"
-        className="
-    snap-start
-    min-h-svh
-    py-20 sm:py-28
-  "
-      >
+      <section id="portfolio" className="min-h-svh pt-24 md:pt-28 md:snap-start">
         <PortfolioComp
           currentPage={result(portfolioData, 'data.pagination.current_page', 1)}
           totalPages={result(portfolioData, 'data.pagination.total_pages', 1)}
