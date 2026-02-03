@@ -15,41 +15,42 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
+
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
+
+  // CLICK OUTSIDE HANDLER
   useEffect(() => {
+    if (!open) return
+
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setOpen(false)
       }
     }
 
-    if (open) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [open])
+
   const handleNavClick = (item: NavItem) => {
-    // kalau sudah di homepage → scroll
+    // sudah di homepage → scroll
     if (location.pathname === '/' && item.link) {
       document.getElementById(item.link)?.scrollIntoView({ behavior: 'smooth' })
       return
     }
 
-    // kalau bukan di homepage → navigate dulu
+    // belum di homepage → navigate dulu
     navigate(item.navigate)
 
-    // tunggu DOM render lalu scroll
+    // tunggu DOM render
     setTimeout(() => {
       document.getElementById(item.link)?.scrollIntoView({ behavior: 'smooth' })
     }, 100)
   }
 
   return (
-    <div>
+    <div ref={menuRef}>
       <header className="w-full sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="mx-auto container px-4 h-20 flex items-center justify-between">
           {/* LOGO */}
@@ -67,10 +68,7 @@ export default function Navbar() {
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item)}
-                  className="
-                  text-sm font-medium uppercase tracking-tight
-                  transition-opacity hover:opacity-70
-                "
+                  className="text-sm font-medium uppercase tracking-tight transition-opacity hover:opacity-70"
                 >
                   {item.name}
                 </button>
@@ -89,8 +87,8 @@ export default function Navbar() {
             </Button>
           </div>
 
-          {/* MOBILE RIGHT */}
-          <div ref={menuRef} className="flex md:hidden items-center gap-2">
+          {/* MOBILE ACTIONS */}
+          <div className="flex md:hidden items-center gap-2">
             <Button
               variant="outline"
               size="icon"
@@ -99,15 +97,16 @@ export default function Navbar() {
               {theme === 'dark' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
             </Button>
 
-            {/* placeholder kalau nanti mau hamburger */}
             <Button variant="ghost" size="icon" onClick={() => setOpen(prev => !prev)}>
               <Menu className="h-5 w-5" />
             </Button>
           </div>
         </div>
       </header>
+
+      {/* MOBILE MENU */}
       {open && (
-        <div className="border-t border-border backdrop-blur-md">
+        <div className="border-t border-border backdrop-blur-md md:hidden">
           <nav className="flex flex-col px-4 py-4 gap-4 bg-background">
             {(NavbarData.data as NavItem[]).map(item => (
               <button

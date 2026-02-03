@@ -35,7 +35,14 @@ export default function Home() {
       </section>
 
       {/* portfolio */}
-      <section id="portfolio" className="min-h-screen snap-start py-28">
+      <section
+        id="portfolio"
+        className="
+    snap-start
+    min-h-svh
+    py-20 sm:py-28
+  "
+      >
         <PortfolioComp
           currentPage={result(portfolioData, 'data.pagination.current_page', 1)}
           totalPages={result(portfolioData, 'data.pagination.total_pages', 1)}

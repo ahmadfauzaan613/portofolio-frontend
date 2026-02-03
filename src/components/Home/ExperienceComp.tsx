@@ -70,7 +70,6 @@ export default function ExperienceComp({
         variants={staggerList}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
         className="lg:col-span-8 space-y-4"
       >
         {dataExperience && dataExperience.length === 0 ? (

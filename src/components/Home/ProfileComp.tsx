@@ -55,7 +55,7 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
           initial={{ scale: 1.05, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative my-10 h-[30vh] sm:h-[40vh] lg:h-[45vh] overflow-hidden"
+          className="relative my-6 h-[30vh] sm:h-[40vh] lg:h-[45vh] overflow-hidden"
         >
           <img
             src={'/images/homefoto.JPG'}
@@ -71,8 +71,7 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
       <motion.div
         variants={fadeUp}
         initial="hidden"
-        animate="show"
-        transition={{ delay: 0.15 }}
+        whileInView="show"
         className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
       >
         {/* ABOUT */}

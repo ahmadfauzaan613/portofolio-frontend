@@ -60,7 +60,10 @@ export default function PortfolioComp({
 
         <p
           onClick={() => navigate('/portfolio')}
-          className={`${dataPortfolio.length === 0 && 'hidden'} text-xs uppercase tracking-widest cursor-pointer opacity-70 hover:opacity-100 transition`}
+          className={cn(
+            'text-xs uppercase tracking-widest cursor-pointer opacity-70 hover:opacity-100 transition',
+            dataPortfolio.length === 0 && 'hidden'
+          )}
         >
           View Project →
         </p>
@@ -73,7 +76,7 @@ export default function PortfolioComp({
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
         className={cn(
-          'mt-12',
+          'mt-8 sm:mt-12',
           dataPortfolio.length > 0 && 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'
         )}
       >
@@ -81,15 +84,14 @@ export default function PortfolioComp({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="h-[60vh] grid place-items-center text-center"
+            className="min-h-[40vh] grid place-items-center text-center"
           >
             <div className="space-y-4">
               <h2 className="text-3xl sm:text-4xl font-black tracking-tight">No Portfolio Yet</h2>
             </div>
           </motion.div>
         ) : (
-          dataPortfolio.map((item: PortfolioForm) => (
+          dataPortfolio.map(item => (
             <motion.div key={item.id} variants={fadeUp}>
               <Card
                 role="button"
@@ -105,7 +107,7 @@ export default function PortfolioComp({
                 )}
               >
                 {/* CONTENT */}
-                <div className="flex flex-col justify-between p-5 h-47.5">
+                <div className="flex flex-col justify-between p-5 h-48">
                   <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
                       {item.category}
@@ -124,6 +126,7 @@ export default function PortfolioComp({
                     View Project →
                   </span>
                 </div>
+
                 {/* IMAGE */}
                 <div className="relative h-44 sm:h-48 overflow-hidden">
                   <img
