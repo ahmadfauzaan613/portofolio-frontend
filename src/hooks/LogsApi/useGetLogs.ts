@@ -3,7 +3,7 @@ import type { GetLogsParams } from '../../type'
 import api from '../axios'
 
 export const getLogs = async ({ page, limit }: GetLogsParams) => {
-  const response = await api.get('/api/v1/logs', {
+  const response = await api.get('logs', {
     params: { page, limit },
     withCredentials: true,
   })

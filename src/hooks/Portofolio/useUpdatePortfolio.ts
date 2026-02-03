@@ -6,7 +6,7 @@ export const useUpdatePortfolio = () => {
 
   return useMutation({
     mutationFn: async ({ id, formData }: { id: number | string; formData: FormData }) => {
-      const { data } = await api.put(`/api/v1/portfolios/${id}`, formData, {
+      const { data } = await api.put(`portfolios/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       })

@@ -3,7 +3,7 @@ import type { IPayloadUpdate } from '../../type'
 import api from '../axios'
 
 export const updateProfile = async ({ id, payload }: { id: number; payload: IPayloadUpdate }) => {
-  const response = await api.put(`/api/v1/profiles/${id}`, payload, { withCredentials: true })
+  const response = await api.put(`profiles/${id}`, payload, { withCredentials: true })
   return response.data
 }
 

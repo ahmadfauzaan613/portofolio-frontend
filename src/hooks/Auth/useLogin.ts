@@ -3,7 +3,7 @@ import type { LoginPayload } from '../../type'
 import api from '../axios'
 
 export const login = async (payload: LoginPayload) => {
-  const response = await api.post('/api/v1/auth/login', payload, {
+  const response = await api.post('auth/login', payload, {
     withCredentials: true,
   })
   return response.data

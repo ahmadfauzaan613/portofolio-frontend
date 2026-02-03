@@ -3,7 +3,7 @@ import type { GetExperiencesParams } from '../../type'
 import api from '../axios'
 
 export const getExperiences = async ({ page, limit }: GetExperiencesParams) => {
-  const response = await api.get('/api/v1/experiences', {
+  const response = await api.get('experiences', {
     params: { page, limit },
   })
   return response.data

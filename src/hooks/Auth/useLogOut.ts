@@ -3,7 +3,7 @@ import api from '../axios'
 
 export const logout = async () => {
   const response = await api.post(
-    '/api/v1/auth/logout',
+    'auth/logout',
     {},
     {
       withCredentials: true,

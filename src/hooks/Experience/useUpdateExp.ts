@@ -3,7 +3,7 @@ import type { UpdateExperiencePayload } from '../../type'
 import api from '../axios'
 
 export const updateExperience = async (id: number, payload: UpdateExperiencePayload) => {
-  const response = await api.put(`/api/v1/experiences/${id}`, payload, {
+  const response = await api.put(`experiences/${id}`, payload, {
     withCredentials: true,
   })
   return response.data

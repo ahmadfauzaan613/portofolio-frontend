@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '../axios'
 
 export const cleanupLogs = async () => {
-  const response = await api.delete('/api/v1/logs/cleanup', {
+  const response = await api.delete('logs/cleanup', {
     withCredentials: true,
   })
   return response.data

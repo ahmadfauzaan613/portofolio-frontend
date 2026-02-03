@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from '../axios'
 
 export const getProfile = async () => {
-  const response = await api.get(`/api/v1/profiles/latest`)
+  const response = await api.get(`profiles/latest`)
   return response.data.data
 }
 

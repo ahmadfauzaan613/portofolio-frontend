@@ -6,7 +6,7 @@ export const useCreatePortfolio = () => {
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      const { data } = await api.post('/api/v1/portfolios', formData, {
+      const { data } = await api.post('portfolios', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       })

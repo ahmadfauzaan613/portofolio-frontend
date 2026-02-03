@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from '../axios'
 
 export const getDetailPort = async (id: number | string) => {
-  const response = await api.get(`/api/v1/portfolios/${id}`, {
+  const response = await api.get(`portfolios/${id}`, {
     withCredentials: true,
   })
   return response.data.data

@@ -7,7 +7,7 @@ export interface UpdatePasswordPayload {
 }
 
 export const updatePassword = async (payload: UpdatePasswordPayload) => {
-  const response = await api.post('/api/v1/auth/update-password', payload, {
+  const response = await api.post('auth/update-password', payload, {
     withCredentials: true,
   })
   return response.data

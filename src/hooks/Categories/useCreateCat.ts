@@ -3,7 +3,7 @@ import type { CreateCategory } from '../../type'
 import api from '../axios'
 
 export const createCategory = async (payload: CreateCategory) => {
-  const response = await api.post('/api/v1/categories', payload, {
+  const response = await api.post('categories', payload, {
     withCredentials: true,
   })
   return response.data

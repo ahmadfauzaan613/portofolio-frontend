@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from '../axios'
 
 export const getMe = async () => {
-  const response = await api.get('/api/v1/auth/me', {
+  const response = await api.get('auth/me', {
     withCredentials: true,
   })
   return response.data

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from '../axios'
 
 export const getCategory = async () => {
-  const response = await api.get(`/api/v1/categories`)
+  const response = await api.get(`categories`)
   return response.data
 }
 

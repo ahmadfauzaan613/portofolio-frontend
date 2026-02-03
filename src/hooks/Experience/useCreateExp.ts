@@ -3,7 +3,7 @@ import type { CreateExperiencePayload } from '../../type'
 import api from '../axios'
 
 export const createExperience = async (payload: CreateExperiencePayload) => {
-  const response = await api.post('/api/v1/experiences', payload, {
+  const response = await api.post('experiences', payload, {
     withCredentials: true,
   })
   return response.data

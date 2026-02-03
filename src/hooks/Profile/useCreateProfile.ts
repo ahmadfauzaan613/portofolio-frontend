@@ -3,7 +3,7 @@ import type { CreateProfilePayload } from '../../type'
 import api from '../axios'
 
 export const createProfile = async (payload: CreateProfilePayload) => {
-  const response = await api.post('/api/v1/profiles', payload, { withCredentials: true })
+  const response = await api.post('profiles', payload, { withCredentials: true })
   return response.data
 }
 

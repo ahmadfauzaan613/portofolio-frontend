@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from '../axios'
 
 export const deleteCategory = async (id: number) => {
-  const response = await api.delete(`/api/v1/categories/${id}`, {
+  const response = await api.delete(`categories/${id}`, {
     withCredentials: true,
   })
   return response.data
