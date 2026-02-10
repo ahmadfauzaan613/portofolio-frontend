@@ -10,7 +10,7 @@ import { useGetAllProfile } from '../hooks/Profile/useGetProfile'
 
 export default function Home() {
   const [page, setPage] = useState(1)
-  const { data: experienceData } = useGetExperiences(page, 3)
+  const { data: experienceData } = useGetExperiences(page, 2)
   const { data: profile } = useGetAllProfile()
   const [pagePortfolio, setPortfolio] = useState(1)
   const { data: portfolioData } = useGetAllportfolio(pagePortfolio, 6)
