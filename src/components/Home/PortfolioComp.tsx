@@ -2,13 +2,13 @@ import type { Variants } from 'framer-motion'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { cn } from '../../lib/utils'
-import type { PortfolioForm } from '../../type'
+import { cn, getImageUrl } from '../../lib/utils'
+import type { Portfolio } from '../../type'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
 
 export interface IProject {
-  dataPortfolio: PortfolioForm[]
+  dataPortfolio: Portfolio[]
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
@@ -20,7 +20,6 @@ export default function PortfolioComp({
   totalPages,
   onPageChange,
 }: IProject) {
-  const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
   const navigate = useNavigate()
 
   const fadeUp: Variants = {
@@ -130,7 +129,7 @@ export default function PortfolioComp({
                 {/* IMAGE */}
                 <div className="relative h-44 sm:h-48 overflow-hidden">
                   <img
-                    src={`${IMAGE_BASE_URL}/${item.image_banner}`}
+                    src={getImageUrl(item.image_banner)}
                     alt={item.short_desc}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />

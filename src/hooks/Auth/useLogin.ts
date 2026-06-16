@@ -12,5 +12,10 @@ export const login = async (payload: LoginPayload) => {
 export const useLogin = () => {
   return useMutation({
     mutationFn: login,
+    onSuccess: (data) => {
+      if (data?.data?.token) {
+        localStorage.setItem('token', data.data.token)
+      }
+    },
   })
 }

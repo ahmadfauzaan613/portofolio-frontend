@@ -1,34 +1,65 @@
-import { motion } from 'framer-motion'
-import { FileText, Linkedin, Mail, Phone } from 'lucide-react'
+import { motion } from "framer-motion";
+import { FileText, Mail, Phone, GitGraph, Camera } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../../components/ui/tooltip'
-import { cn } from '../../lib/utils'
-import type { ILinkResponse, IPropsProfile } from '../../type'
-import { Button } from '../ui/button'
+} from "../../components/ui/tooltip";
+import { cn } from "../../lib/utils";
+import type { ILinkResponse, IPropsProfile } from "../../type";
+import { Button } from "../ui/button";
+
+const Linkedin = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
 export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
-  const linkConfig: Record<string, { icon: React.ElementType; action: (url: string) => void }> = {
-    WhatsApp: {
+  const linkConfig: Record<
+    string,
+    { icon: React.ElementType; action: (url: string) => void }
+  > = {
+    whatsapp: {
       icon: Phone,
-      action: url => window.open(url, '_blank'),
+      action: (url) => window.open(url, "_blank"),
     },
-    Email: {
+    email: {
       icon: Mail,
-      action: url => window.location.assign(url),
+      action: (url) =>
+        window.location.assign(
+          url.startsWith("mailto:") ? url : `mailto:${url}`,
+        ),
     },
-    Resume: {
+    resume: {
       icon: FileText,
-      action: url => window.open(url, '_blank'),
+      action: (url) => window.open(url, "_blank"),
     },
-    Linkedin: {
+    linkedin: {
       icon: Linkedin,
-      action: url => window.open(url, '_blank'),
+      action: (url) => window.open(url, "_blank"),
     },
-  }
+    github: {
+      icon: GitGraph,
+      action: (url) => window.open(url, "_blank"),
+    },
+    instagram: {
+      icon: Camera,
+      action: (url) => window.open(url, "_blank"),
+    },
+  };
 
   const fadeUp = {
     hidden: { opacity: 0, y: 24 },
@@ -40,7 +71,7 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
         ease: [0.16, 1, 0.3, 1] as const,
       },
     },
-  }
+  };
 
   return (
     <div className="px-4">
@@ -58,7 +89,7 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
           className="relative my-6 h-[30vh] sm:h-[40vh] lg:h-[45vh] overflow-hidden"
         >
           <img
-            src={'/images/homefoto.JPG'}
+            src={"/images/homefoto.JPG"}
             alt="Hero visual"
             className="w-full h-full object-cover object-[center_30%]"
           />
@@ -75,14 +106,17 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
         className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
       >
         {/* ABOUT */}
-        <p className="text-sm sm:text-base leading-relaxed text-justify max-w-prose">{about}</p>
+        <p className="text-sm sm:text-base leading-relaxed text-justify max-w-prose">
+          {about}
+        </p>
 
         {/* LINKS */}
         <div className="flex md:justify-end gap-3">
           {dataLink.map((item: ILinkResponse, i: number) => {
-            const config = linkConfig[item.type]
-            if (!config) return null
-            const Icon = config.icon
+            const normalizedType = item.type.toLowerCase().trim();
+            const config = linkConfig[normalizedType];
+            if (!config) return null;
+            const Icon = config.icon;
 
             return (
               <TooltipProvider key={i}>
@@ -92,9 +126,9 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
                       variant="outline"
                       onClick={() => config.action(item.value)}
                       className={cn(
-                        'rounded-full w-10 h-10 p-0',
-                        'transition-all duration-300',
-                        'hover:-translate-y-1 hover:shadow-md'
+                        "rounded-full w-10 h-10 p-0",
+                        "transition-all duration-300",
+                        "hover:-translate-y-1 hover:shadow-md",
                       )}
                     >
                       <Icon className="h-4 w-4" />
@@ -105,10 +139,10 @@ export default function ProfileComp({ role, about, dataLink }: IPropsProfile) {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-            )
+            );
           })}
         </div>
       </motion.div>
     </div>
-  )
+  );
 }

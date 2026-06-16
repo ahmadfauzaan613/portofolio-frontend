@@ -1,8 +1,7 @@
 import { ExternalLink, Pencil, Trash2 } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
 import type { IColumn, Portfolio } from '../../../type'
-
-const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
+import { getImageUrl } from '../../../lib/utils'
 
 export const PortfolioColumn = (
   onEdit: (item: Portfolio) => void,
@@ -20,7 +19,7 @@ export const PortfolioColumn = (
     header: 'Banner',
     accessor: item => (
       <img
-        src={`${IMAGE_BASE_URL}/${item.image_banner}`}
+        src={getImageUrl(item.image_banner)}
         alt={item.short_desc}
         className="h-12 w-28 object-cover rounded-md border"
       />
@@ -53,7 +52,7 @@ export const PortfolioColumn = (
         {item.logo.map((img, idx) => (
           <img
             key={idx}
-            src={`${IMAGE_BASE_URL}/${img}`}
+            src={getImageUrl(img)}
             alt="logo"
             className="h-6 w-6 object-contain rounded border"
           />
@@ -69,7 +68,7 @@ export const PortfolioColumn = (
         {item.all_image.map((img, idx) => (
           <img
             key={idx}
-            src={`${IMAGE_BASE_URL}/${img}`}
+            src={getImageUrl(img)}
             alt={`preview-${idx}`}
             className="h-10 w-14 object-cover rounded border"
           />

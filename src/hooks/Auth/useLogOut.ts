@@ -18,6 +18,7 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
+      localStorage.removeItem('token')
       queryClient.removeQueries({ queryKey: ['auth'] })
     },
   })

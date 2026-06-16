@@ -97,17 +97,17 @@ export default function UpdatePasswordModal({
               )}
             </div>
           </div>
-        </form>
 
-        <DialogFooter>
-          <Button
-            type="submit"
-            className="w-full bg-white cursor-pointer text-black"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Saving...' : 'Save Password'}
-          </Button>
-        </DialogFooter>
+          <DialogFooter className="mt-6">
+            <Button
+              type="submit"
+              className="w-full bg-white cursor-pointer text-black"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Saving...' : 'Save Password'}
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   )

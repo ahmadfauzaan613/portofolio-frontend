@@ -9,6 +9,7 @@ import { Textarea } from '../../components/ui/textarea'
 import { useCreateProfile } from '../../hooks/Profile/useCreateProfile'
 import { useGetAllProfile } from '../../hooks/Profile/useGetProfile'
 import { useUpdateProfile } from '../../hooks/Profile/useUpdateProfile'
+import { uploadResume } from '../../hooks/Profile/useUploadResume'
 import type { ProfileFormValues } from '../../type'
 
 export default function Profile() {
@@ -22,6 +23,8 @@ export default function Profile() {
     control,
     reset,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<ProfileFormValues>({
     defaultValues: {
@@ -130,38 +133,92 @@ export default function Profile() {
           </Button>
         </div>
         <div className="space-y-5 max-h-100 overflow-y-auto pr-2">
-          {fields.map((field, index) => (
-            <div key={field.id} className="flex gap-4 items-start border-b pb-6 last:border-0">
-              <div className="flex-1 space-y-3">
-                <Input
-                  {...register(`links.${index}.type` as const, {
-                    required: 'Type is required',
-                  })}
-                  placeholder="Type (github, linkedin, etc)"
-                  className="h-10"
-                />
-                <Input
-                  {...register(`links.${index}.value` as const, {
-                    required: 'URL is required',
-                  })}
-                  placeholder="Value (URL)"
-                  className="h-10"
-                />
-              </div>
+          {fields.map((field, index) => {
+            const linkType = watch(`links.${index}.type` as const)
+            const linkValue = watch(`links.${index}.value` as const)
+            return (
+              <div key={field.id} className="flex gap-4 items-start border-b pb-6 last:border-0">
+                <div className="flex-1 space-y-3">
+                  <Input
+                    {...register(`links.${index}.type` as const, {
+                      required: 'Type is required',
+                    })}
+                    placeholder="Type (github, linkedin, etc)"
+                    className="h-10"
+                  />
+                  {linkType?.toLowerCase() === 'resume' ? (
+                    <div className="space-y-2">
+                      {linkValue && (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                          <span>Current File:</span>
+                          <a
+                            href={linkValue}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 hover:underline break-all"
+                          >
+                            Download/View PDF
+                          </a>
+                        </div>
+                      )}
+                      <Input
+                        type="file"
+                        accept="application/pdf"
+                        onChange={async e => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            const uploadToast = toast.loading('Uploading resume...')
+                            try {
+                              const res = await uploadResume(file)
+                              setValue(`links.${index}.value` as const, res.url)
+                              toast.success('Resume uploaded successfully', { id: uploadToast })
+                            } catch (err: any) {
+                              toast.error(
+                                err.response?.data?.message || 'Failed to upload resume',
+                                { id: uploadToast }
+                              )
+                            }
+                          }
+                        }}
+                        className="h-10 cursor-pointer"
+                      />
+                      <input
+                        type="hidden"
+                        {...register(`links.${index}.value` as const, {
+                          required: 'Resume file is required',
+                        })}
+                      />
+                    </div>
+                  ) : (
+                    <Input
+                      {...register(`links.${index}.value` as const, {
+                        required: 'URL is required',
+                      })}
+                      placeholder="Value (URL)"
+                      className="h-10"
+                    />
+                  )}
+                  {errors.links?.[index]?.value && (
+                    <p className="text-sm text-red-500 mt-1">
+                      {errors.links[index]?.value?.message}
+                    </p>
+                  )}
+                </div>
 
-              {fields.length > 1 && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => remove(index)}
-                  className="text-red-500 hover:bg-red-50 mt-1"
-                >
-                  <Trash2 className="h-5 w-5" />
-                </Button>
-              )}
-            </div>
-          ))}
+                {fields.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => remove(index)}
+                    className="text-red-500 hover:bg-red-50 mt-1"
+                  >
+                    <Trash2 className="h-5 w-5" />
+                  </Button>
+                )}
+              </div>
+            )
+          })}
         </div>
         <div className="pt-6 flex justify-end">
           <Button

@@ -1,20 +1,20 @@
-import { useMutation } from '@tanstack/react-query'
-import api from '../axios'
+import { useMutation } from "@tanstack/react-query";
+import api from "../axios";
 
 export interface UpdatePasswordPayload {
-  oldPassword: string
-  newPassword: string
+  oldPassword: string;
+  newPassword: string;
 }
 
 export const updatePassword = async (payload: UpdatePasswordPayload) => {
-  const response = await api.post('auth/update-password', payload, {
+  const response = await api.put("auth/update-password", payload, {
     withCredentials: true,
-  })
-  return response.data
-}
+  });
+  return response.data;
+};
 
 export const useUpdatePassword = () => {
   return useMutation({
     mutationFn: updatePassword,
-  })
-}
+  });
+};

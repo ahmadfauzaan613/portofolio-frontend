@@ -17,9 +17,8 @@
     "jsx": "react-jsx",
 
     /* ⭐ ALIAS HARUS DI SINI ⭐ */
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
 
     /* Linting */

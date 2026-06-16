@@ -6,11 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { useGetAllportfolio } from '../hooks/Portofolio/useGetAllportfolio'
-import { cn } from '../lib/utils'
-import type { PortfolioForm } from '../type'
+import { cn, getImageUrl } from '../lib/utils'
+import type { Portfolio } from '../type'
 
 export default function Portofolio() {
-  const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
   const navigate = useNavigate()
   const [pagePortfolio, setPortfolio] = useState(1)
   const { data: portfolioData } = useGetAllportfolio(pagePortfolio, 6)
@@ -70,7 +69,7 @@ export default function Portofolio() {
         gap-6
       "
         >
-          {result(portfolioData, 'data.items', []).map((item: PortfolioForm) => (
+          {result(portfolioData, 'data.items', []).map((item: Portfolio) => (
             <motion.div
               key={item.id}
               variants={{
@@ -125,7 +124,7 @@ export default function Portofolio() {
                 {/* IMAGE */}
                 <div className="relative h-44 sm:h-52 overflow-hidden">
                   <img
-                    src={`${IMAGE_BASE_URL}/${item.image_banner}`}
+                    src={getImageUrl(item.image_banner)}
                     alt={item.short_desc}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />

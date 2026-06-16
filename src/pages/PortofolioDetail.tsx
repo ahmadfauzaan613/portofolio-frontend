@@ -2,6 +2,7 @@ import { result } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGetDetailPort } from '../hooks/Portofolio/useGetDetailPort'
+import { getImageUrl } from '../lib/utils'
 
 // shadcn
 import { Badge } from '@/components/ui/badge'
@@ -18,7 +19,6 @@ export default function PortofolioDetail() {
   const [activeImage, setActiveImage] = useState<string | null>(null)
 
   const { data, isLoading } = useGetDetailPort(portfolioId)
-  const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_BASE_URL
 
   // lock body scroll when lightbox open
   useEffect(() => {
@@ -109,7 +109,7 @@ export default function PortofolioDetail() {
         "
       >
         <img
-          src={`${IMAGE_BASE_URL}/${data.image_banner}`}
+          src={getImageUrl(data.image_banner)}
           alt={data.title}
           className="h-full w-full object-cover"
         />
@@ -132,7 +132,7 @@ export default function PortofolioDetail() {
                 className="p-3 rounded-lg border bg-background shadow-sm"
               >
                 <img
-                  src={`${IMAGE_BASE_URL}/${img}`}
+                  src={getImageUrl(img)}
                   alt="tech"
                   className="h-8 w-auto opacity-80"
                 />
@@ -173,7 +173,7 @@ export default function PortofolioDetail() {
                 className="group relative overflow-hidden rounded-xl border"
               >
                 <img
-                  src={`${IMAGE_BASE_URL}/${img}`}
+                  src={getImageUrl(img)}
                   alt={`gallery-${idx}`}
                   className="h-60 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -220,7 +220,7 @@ export default function PortofolioDetail() {
               </Button>
 
               <img
-                src={`${IMAGE_BASE_URL}/${activeImage}`}
+                src={getImageUrl(activeImage)}
                 alt="preview"
                 className="max-h-[90vh] max-w-[90vw] rounded-xl shadow-2xl"
               />
